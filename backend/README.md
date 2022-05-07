@@ -1,0 +1,2 @@
+announcements
+create database announcements;
