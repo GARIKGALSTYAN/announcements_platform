@@ -17,6 +17,17 @@ export async function create(args: IStorageCreateUserArgs): Promise<IStorageUser
     role,
   } = args;
 
+  const users = await UserEntity.Repository.find({
+    where: {
+      email: args.email,
+      // is_verified: true,
+    }
+  });
+
+  if (users.length > 0) {
+    throw new Error("User already exists");
+  }
+
   const user = new UserEntity();
   user.name = name;
   user.last_name = last_name;

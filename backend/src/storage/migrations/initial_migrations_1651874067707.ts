@@ -25,7 +25,8 @@ export class InitialTablesCreate_1651874067707 implements MigrationInterface {
 
                 user_id integer not null,
                 refresh_token_id integer not null,
-                value varchar(124) not null
+                value varchar(124) not null,
+                expiry_date timestamp with time zone not null
             );
 
             CREATE TABLE IF NOT EXISTS announcements (

@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  ManyToOne,
   JoinColumn,
 } from "typeorm";
 import { BaseEntity } from "./base";
@@ -17,6 +17,7 @@ export class AnnouncementEntity extends BaseEntity {
     return data_source.getRepository(this);
   }
 
+  @ManyToOne(type => UserEntity, user => user)
   @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 
@@ -24,11 +25,13 @@ export class AnnouncementEntity extends BaseEntity {
   description!: string;
 
   @Column({ type: "double precision", nullable: false })
-  price!: string;
+  price!: number;
 
+  @ManyToOne(type => RegionEntity, user => user)
   @JoinColumn({ name: "region_id" })
   region!: RegionEntity;
 
+  @ManyToOne(type => CityEntity, user => user)
   @JoinColumn({ name: "city_id" })
   city!: CityEntity;
 }

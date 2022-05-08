@@ -56,3 +56,5 @@ export async function initStorageConnection() {
   await data_source.initialize();
   await data_source.runMigrations();
 }
+
+export * as StorageAPI from "./api";

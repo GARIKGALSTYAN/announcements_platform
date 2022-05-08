@@ -19,3 +19,13 @@ export interface IStorageCreateUserArgs {
   is_verified: boolean;
   role: UserRole
 }
+
+export interface IStorageLoginArgs {
+  email: string;
+  password: string;
+}
+
+
+export interface IGetManyUserArgs {
+  user_id: undefined | number;
+}

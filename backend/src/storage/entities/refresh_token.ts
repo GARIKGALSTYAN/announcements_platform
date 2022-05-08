@@ -2,6 +2,7 @@ import {
   Entity,
   Column,
   JoinColumn,
+  ManyToOne,
 } from "typeorm";
 import { BaseEntity } from "./base";
 import { UserEntity } from "./users";
@@ -14,6 +15,7 @@ export class RefreshTokenEntity extends BaseEntity {
     return data_source.getRepository(this);
   }
 
+  @ManyToOne(type => UserEntity, user => user)
   @JoinColumn({ name: "user_id" })
   user!: UserEntity;
 

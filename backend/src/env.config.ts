@@ -12,6 +12,7 @@ const database = {
 
 const server = {
   port: 6012,
+  access_token_expiration_time_ms: 60 * 60 * 1000
 }
 
 export const app_environment_variables = {

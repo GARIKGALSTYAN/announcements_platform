@@ -1,41 +1,30 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { UserRole, HTTPMethod } from "../shared";
 import { Schema } from "jsonschema";
 
-export interface Req extends Request {
-  user: null | RequestUserAuthData
-}
 
+export interface Req<T1 = any, T2 = any, T3 = any, T4 = any, T5 = any>
+  extends express.Request<T1, T2, T3, T4, T5> {}
 
 export interface RequestUserAuthData {
+  auth: boolean;
   role: UserRole;
   user_id: number;
 }
 
-
-export interface Res extends Response {}
+export interface Res<T = any> extends express.Response<T, RequestUserAuthData> {}
 
 export interface RouteHandlerConfig {
   method: HTTPMethod,
   path: string,
-
+  name?: string,
   access: null | Array<UserRole>,
-
   validation_schemas: ValidationSchemas,
-  // handler: (args: HandlerArgs<any, any, any>) => Promise<any>,
-  // handler: (req: Req, res: Res) => Promise<any>,
-  handler: (req: Request, res: Response) => Promise<any>,
+  handler: (req: Req, res: Res) => Promise<any>,
 }
 
 export interface ValidationSchemas {
   body: undefined | Schema,
   params: undefined | Schema,
   query: undefined | Schema,
-}
-
-export interface HandlerArgs<Body = undefined, Params = undefined, Query = undefined> {
-  body: Body,
-  params: Params,
-  query: Query,
-  user: null | RequestUserAuthData,
 }
