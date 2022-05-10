@@ -166,7 +166,8 @@ export default defineComponent({
       <div class="prop_list">
         <span>category</span>
         <div
-          class="item" v-for="category in category_list"
+          class="item"
+          v-for="category in category_list"
           v-bind:key="category.id"
         >
           <span> {{ category.name }} </span>

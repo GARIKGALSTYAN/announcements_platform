@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginRegistration from "../views/LoginRegistration.vue";
-import UserProfile from "../views/UserAnnouncements.vue";
+import UserAnnouncements from "../views/UserAnnouncements.vue";
 import AdminPanel from "@/components/AdminPanel.vue";
 
 const router = createRouter({
@@ -14,7 +14,7 @@ const router = createRouter({
     {
       path: "/profile",
       name: "profile",
-      component: UserProfile,
+      component: UserAnnouncements,
     },
     {
       path: "/admin",
