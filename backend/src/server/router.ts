@@ -62,6 +62,8 @@ for(const route_config of all_route_configs) {
 
       [has_validation_errors, errors] = validateNetworkInput(req, validation_schemas);
 
+      console.log("irer: ", errors);
+      //           error
 
       if (has_access === true && has_validation_errors === false) {
         await handler(req, res);

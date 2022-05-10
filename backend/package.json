@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "npx rimraf dist && npx tsc && node dist/server/index.js",
+    "dev": "npx rimraf dist && npx tsc && yarn start",
     "rm": "npx rimraf dist",
     "re": "yarn rm && yarn build",
     "build": "npx tsc",
-    "run-bg": "pm2 start dist/server/index.js",
-    "start": "node dist/server/index.js",
-    "heroku-postbuild": "npx tsc"
+    "start": "node dist/src/server/index.js",
+    "heroku-postbuild": "npx tsc",
+    "upcom": "yarn upgrade common"
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",
@@ -27,6 +27,7 @@
     "@types/express": "^4.17.11",
     "@types/multer": "^1.4.7",
     "@types/node": "^14.14.33",
+    "common": "file:../common",
     "typescript": "^4.2.3"
   }
 }

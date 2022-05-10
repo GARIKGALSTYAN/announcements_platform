@@ -9,11 +9,14 @@ export async function authMiddleware(req: Req, res: Res, next: Function) {
 
   console.log("cookies: ", req.cookies);
 
-  const access_token = req.cookies && req.cookies.access_token;
+  let access_token = req.cookies && req.cookies.access_token;
+  if (!access_token) {
+    access_token = req.headers && req.headers.access_token;
+  }
 
   console.log({ access_token });
 
-  if (typeof access_token === "string" || access_token.length !== 0) {
+  if (typeof access_token === "string" && access_token.length !== 0) {
     console.log("acc token OS foundED");
 
     const access_tokens = await StorageAPI.AccessTokens.getMany({

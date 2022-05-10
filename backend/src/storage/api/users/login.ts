@@ -11,6 +11,10 @@ export async function userLogin(args: IStorageLoginArgs): Promise<null | IStorag
     }
   });
 
+  if (users[0] === undefined) {
+    throw new Error("no user");
+  }
+
   const user = entityToOutType(users[0])
 
   return user || null;

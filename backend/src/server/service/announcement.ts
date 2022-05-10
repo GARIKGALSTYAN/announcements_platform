@@ -93,6 +93,38 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
+  {
+    name: "Get requester user announcements",
+
+    access: [UserRole.ADMIN, UserRole.USER],
+    method: HTTPMethod.GET,
+    path: '/my_announcement',
+    validation_schemas: {
+      body: undefined,
+      params: undefined,
+      query: undefined,
+    },
+    handler: async (
+      req: Req<any, any, any>,
+      res: Res,
+    ) => {
+      console.log("announcement ger my call");
+
+      const announcements = await StorageAPI.Announcements.getMany({
+        user_id: res.locals.user_id,
+        cities: undefined,
+        ids: undefined,
+        regions: undefined,
+        tags: undefined,
+      })
+
+      console.log('announcement get my anncmnt: ', announcements);
+
+      res.json(announcements);
+      res.end();
+    },
+  },
 ];
 
 interface IAnnouncementCreateBody {
