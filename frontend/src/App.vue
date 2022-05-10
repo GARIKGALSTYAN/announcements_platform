@@ -13,10 +13,10 @@ body {
   place-items: center;
 }
 #app {
-  max-width: 1280px;
+  display: flex;
+  flex-grow: 1;
   margin: 0 auto;
-  padding: 2rem;
-
+  justify-content: space-around;
   font-weight: normal;
 }
 </style>

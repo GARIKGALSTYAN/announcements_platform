@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import UserProfile from "@/components/UserProfile.vue";
+import AdminPanel from "@/components/AdminPanel.vue";
 </script>
 
 <template>
   <main>
-    <UserProfile />
+    <AdminPanel />
   </main>
 </template>
 

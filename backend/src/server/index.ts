@@ -5,18 +5,6 @@ import { app_environment_variables } from "../env.config";
 import { initStorageConnection } from "../storage";
 import { router } from "./router";
 import { authMiddleware } from "./authMiddleware";
-import { Req, Res, RequestUserAuthData } from "./types"
-import { IAnnouncement, IAnnouncement22222 } from "common";
-
-const a: IAnnouncement22222 = {
-    city: '',
-    description: "",
-    id: 4,
-    price: 54,
-    region: "dwedw"
-}
-
-console.log('aaaaaaaaaaaaaaaaA":', a);
 
 
 initStorageConnection().catch((error) => {

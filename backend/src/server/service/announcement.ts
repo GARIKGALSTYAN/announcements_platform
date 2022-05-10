@@ -1,8 +1,6 @@
 import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
-import { generatePasswordHash } from "../../shared/utils";
-import { app_environment_variables } from "../../env.config";
 
 
 export const announcement_route_handlers: Array<RouteHandlerConfig> = [

@@ -19,5 +19,3 @@ export const app_environment_variables = {
   database,
   server,
 }
-
-console.log("app_environment_variables", app_environment_variables);

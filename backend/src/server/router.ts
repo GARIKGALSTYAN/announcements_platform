@@ -3,6 +3,7 @@ import { Validator, ValidationError } from 'jsonschema';
 import { RouteHandlerConfig, ValidationSchemas, Req, Res } from "./types";
 import { user_route_handlers } from "./service/user";
 import { announcement_route_handlers } from "./service/announcement";
+import { admin_route_handlers } from "./service/admin";
 
 var validator = new Validator();
 
@@ -11,6 +12,7 @@ export const router = express.Router();
 const all_route_configs: Array<RouteHandlerConfig> = [
   ...user_route_handlers,
   ...announcement_route_handlers,
+  ...admin_route_handlers,
 ]
 
 function validateNetworkInput(request: Req, validation_schemas: ValidationSchemas)

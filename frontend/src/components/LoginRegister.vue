@@ -1,10 +1,11 @@
 <script lang="ts">
 import router from "@/router";
-import axios from "axios";
 import { defineComponent } from "vue";
+import { loginRequest } from "../http_api";
+import { saveTokens } from "../utils";
 
 export default defineComponent({
-  name: "Nav-k",
+  name: "LoginRegister",
   data: function () {
     return {
       login: {
@@ -22,21 +23,16 @@ export default defineComponent({
   },
   methods: {
     async doLogin() {
-      axios
-        .post(import.meta.env.VITE_APP_API_URL + "/user/login", this.login)
-        .then((log_res) => {
-          const { refresh_token, access_token, access_token_expiry_date } =
-            log_res.data;
-          localStorage.setItem("refresh_token", refresh_token);
-          localStorage.setItem("access_token", access_token);
-          localStorage.setItem(
-            "access_token_expiry_date",
-            access_token_expiry_date
-          );
+      loginRequest({
+        email: this.login.email,
+        password: this.login.password,
+      })
+        .then((result) => {
+          saveTokens(result.data);
           router.push({ path: "/profile" });
         })
-        .catch((err) => {
-          console.log("logerr: ", err);
+        .catch((error) => {
+          console.log("Login error: ", error);
         });
     },
     doRegister() {
@@ -72,7 +68,7 @@ export default defineComponent({
 .wrapper {
   display: flex;
   flex-direction: row;
-  width: 80%;
+  flex-grow: 0.8;
 }
 
 .register_wrapper {

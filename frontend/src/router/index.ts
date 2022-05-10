@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginRegistration from "../views/LoginRegistration.vue";
-import UserProfile from "../views/UserProfile.vue";
+import UserProfile from "../views/UserAnnouncements.vue";
+import AdminPanel from "@/components/AdminPanel.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,6 +15,11 @@ const router = createRouter({
       path: "/profile",
       name: "profile",
       component: UserProfile,
+    },
+    {
+      path: "/admin",
+      name: "admin",
+      component: AdminPanel,
     },
     // {
     //   path: '/about',
