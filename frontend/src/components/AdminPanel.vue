@@ -46,8 +46,6 @@ export default defineComponent({
   },
   methods: {
     addCategoryHandler() {
-      console.log("addCategoryHandler: ", this.category);
-
       addCategory({
         name: this.category,
       })
@@ -60,8 +58,6 @@ export default defineComponent({
         });
     },
     addCityHandler() {
-      console.log("addCityHandler: ", this.city);
-
       addCity({
         name: this.city,
       })
@@ -74,8 +70,6 @@ export default defineComponent({
         });
     },
     addRegionHandler() {
-      console.log("addRegionHandler: ", this.region);
-
       addRegion({
         name: this.region,
       })
@@ -88,8 +82,6 @@ export default defineComponent({
         });
     },
     addTagHandler() {
-      console.log("addTagHandler: ", this.tag);
-
       addTag({
         name: this.tag,
       })
@@ -112,7 +104,6 @@ export default defineComponent({
         .catch((error) => {
           console.log("Error on refetch", error);
         });
-      console.log("refetch call");
     },
   },
 });

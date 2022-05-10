@@ -8,8 +8,6 @@ export function generateRandomToken(): Promise<string> {
         rej(err);
       } else {
         const token = buffer.toString('hex');
-        console.log("token", token)
-        console.log("token len", token.length)
         res(token);
       }
     });

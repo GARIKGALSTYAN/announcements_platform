@@ -71,8 +71,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log('announcement create body: ', body);
-
       const announcement = await StorageAPI.Announcements.create({
         user_id: res.locals.user_id,
         description: body.description,
@@ -84,8 +82,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         tags: body.tags,
         categories: body.categories,
       })
-
-      console.log('announcement created anncmnt: ', announcement);
 
       res.json({user: "uaaaaaaaaaaa"});
       res.end();
@@ -107,7 +103,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<any, any, any>,
       res: Res,
     ) => {
-      console.log("announcement ger my call");
 
       const announcements = await StorageAPI.Announcements.getMany({
         user_id: res.locals.user_id,
@@ -116,8 +111,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         regions: undefined,
         tags: undefined,
       })
-
-      console.log('announcement get my anncmnt: ', announcements);
 
       res.json(announcements);
       res.end();

@@ -42,13 +42,9 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log('city create body: ', body);
-
       const city = await StorageAPI.City.create({
         name: body.name,
       })
-
-      console.log('city created: ', city);
 
       res.json(city);
       res.end();
@@ -83,13 +79,9 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log('region create body: ', body);
-
       const region = await StorageAPI.Region.create({
         name: body.name,
       })
-
-      console.log('region created: ', region);
 
       res.json(region);
       res.end();
@@ -124,13 +116,9 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log('ICategory create body: ', body);
-
       const category = await StorageAPI.Category.create({
         name: body.name,
       })
-
-      console.log('ICategory created: ', category);
 
       res.json(category);
       res.end();
@@ -165,13 +153,9 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log('tag create body: ', body);
-
       const tag = await StorageAPI.Tag.create({
         name: body.name,
       })
-
-      console.log('tag created: ', tag);
 
       res.json(tag);
       res.end();
@@ -200,8 +184,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
         name: undefined,
       })
 
-      console.log('tag get: ', tags);
-
       res.json(tags);
       res.end();
     },
@@ -225,8 +207,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
         ids: undefined,
         name: undefined,
       })
-
-      console.log('cities get: ', cities);
 
       res.json(cities);
       res.end();
@@ -252,8 +232,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
         name: undefined,
       })
 
-      console.log('categories get: ', categories);
-
       res.json(categories);
       res.end();
     },
@@ -277,8 +255,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
         ids: undefined,
         name: undefined,
       })
-
-      console.log('tag regions: ', regions);
 
       res.json(regions);
       res.end();

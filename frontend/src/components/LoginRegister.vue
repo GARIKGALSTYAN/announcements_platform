@@ -36,7 +36,7 @@ export default defineComponent({
         });
     },
     doRegister() {
-      console.log("doRegister: ", this.register);
+      console.log("doRegister:(implement) ", this.register);
     },
   },
 });

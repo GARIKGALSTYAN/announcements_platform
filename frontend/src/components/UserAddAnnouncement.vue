@@ -48,7 +48,6 @@ export default defineComponent({
     return dt;
   },
   created() {
-    console.log('aaaaaaaaaaa')
     this.fetchLists();
   },
   computed: {
@@ -64,7 +63,6 @@ export default defineComponent({
       console.log("click on item with id");
     },
     addCategory() {
-      console.log("addCategory aa: ", this.selected_category);
       if (this.selected_category !== null) {
         this.selected_categories.push(this.selected_category);
         this.selected_category = null;
@@ -81,7 +79,6 @@ export default defineComponent({
         .catch((error) => {
           console.log("Error on refetch", error);
         });
-      console.log("refetch call");
     },
   },
 });

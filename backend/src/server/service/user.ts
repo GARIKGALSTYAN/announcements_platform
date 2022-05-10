@@ -58,8 +58,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<any, any, IUserCreateBody>,
       res: Res,
     ) => {
-      console.log("user create post request args: ", req.body);
-      // args.body
+
       const { body } = req;
 
       const password_hash = generatePasswordHash(body.password);
@@ -113,51 +112,28 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       res: Res,
     ) => {
       try {
-                // const { body } = args;
-        // console.log("user create post request body: ", req.body);
-        console.log("user login post request args body: ", req.body);
-        // console.log("user login post request args: ", args.body);
-        // args.body
         const { body } = req;
 
-        console.log('user login req body: ', body)
-
         const password_hash = generatePasswordHash(body.password);
-
-        console.log('user login req psw hasj : ', password_hash)
 
         const user = await StorageAPI.Users.userLogin({
           email: body.email,
           password: password_hash,
         });
 
-        console.log('user login post stograg req : ')
-
         if (user === null) {
           throw new Error("Invalid credentials");
         }
 
-        console.log('user->: ', user)
-
         const user_refresh_token = await StorageAPI.RefreshTokens.create({
           user_id: user.id,
         });
-
-        console.log('user_refresh_token: ', user_refresh_token)
 
         const user_access_token = await StorageAPI.AccessTokens.create({
           user_id: user.id,
           refresh_token_id: user_refresh_token.id,
           expiry_date: new Date(Date.now() + app_environment_variables.server.access_token_expiration_time_ms),
         });
-
-        console.log('user_access_token: ', user_access_token)
-
-        console.log('final ::::: ', {
-          user_id: user.id,
-          ref: user_refresh_token.value,
-          acc: user_access_token.value,
-        })
 
         res.json({
           refresh_token: user_refresh_token.value,
@@ -167,7 +143,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
         res.end();
       } catch (error) {
         res.status(400);
-        res.statusMessage = "sax vata";
+        res.statusMessage = "Can't login";
         res.end();
       }
     },

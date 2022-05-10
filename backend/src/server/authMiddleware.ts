@@ -5,30 +5,19 @@ import { UserRole } from "../shared";
 export async function authMiddleware(req: Req, res: Res, next: Function) {
   res.locals.auth = false;
 
-  console.log("authMiddleware call");
-
-  console.log("cookies: ", req.cookies);
-
   let access_token = req.cookies && req.cookies.access_token;
   if (!access_token) {
     access_token = req.headers && req.headers.access_token;
   }
 
-  console.log({ access_token });
 
   if (typeof access_token === "string" && access_token.length !== 0) {
-    console.log("acc token OS foundED");
-
     const access_tokens = await StorageAPI.AccessTokens.getMany({
       token: access_token,
       user_id: undefined,
     });
 
-    console.log("access_tokens: ", access_tokens);
     const access_token_entity = access_tokens[0];
-    console.log("access_token_entity: ", access_token_entity);
-
-    // const role: UserRole = UserRole.USER
 
     if (access_token_entity &&
         access_token_entity.expiry_date.getTime() > Date.now()
@@ -39,10 +28,7 @@ export async function authMiddleware(req: Req, res: Res, next: Function) {
         user_id: access_token_entity.user_id
       });
 
-      console.log("users: ", users);
       const user = users[0];
-
-      console.log("user  : ", user);
 
       if (user) {
         res.locals.role = user.role;
@@ -55,5 +41,4 @@ export async function authMiddleware(req: Req, res: Res, next: Function) {
   }
 
   next();
-  console.log("\n\n locals after next: ", res.locals);
 }
