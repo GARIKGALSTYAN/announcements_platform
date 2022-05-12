@@ -42,9 +42,29 @@ export default defineComponent({
         v-bind:key="ann.id"
         v-on:click="onItemClick(ann)"
       >
-        <span> description: {{ ann.description }} </span>
-        <span> price: {{ ann.price }} </span>
-        <span> ({{ ann.region }} / {{ ann.city }} ) </span>
+        <p>description: {{ ann.description }}</p>
+        <p>price: {{ ann.price }}</p>
+        <p>({{ ann.region }} / {{ ann.city }} )</p>
+        <div>
+          <span v-for="cat in ann.categories" v-bind:key="cat.id">{{
+            cat.name
+          }}</span>
+        </div>
+
+        <div>
+          <span v-for="tag in ann.tags" v-bind:key="tag.id">{{
+            tag.name
+          }}</span>
+        </div>
+
+        <div>
+          <img
+            v-for="img in ann.images"
+            v-bind:key="img.id"
+            v-bind:src="img.url"
+            width="300"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -54,7 +74,8 @@ export default defineComponent({
 .wrapper {
   display: flex;
   flex-direction: row;
-  flex-grow: 0.8;
+  flex-grow: 0.2;
+  justify-content: center;
 }
 .item {
   border: 1px solid white;

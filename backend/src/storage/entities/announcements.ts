@@ -2,12 +2,16 @@ import {
   Entity,
   Column,
   ManyToOne,
+  OneToMany,
   JoinColumn,
 } from "typeorm";
 import { BaseEntity } from "./base";
 import { UserEntity } from "./users";
 import { RegionEntity } from "./region";
 import { CityEntity } from "./city";
+import { CategoryEntity } from "../entities/category";
+import { TagEntity } from "../entities/tag";
+import { ImageEntity } from "../entities/image";
 import { data_source } from "../";
 
 
@@ -34,4 +38,9 @@ export class AnnouncementEntity extends BaseEntity {
   @ManyToOne(type => CityEntity, user => user)
   @JoinColumn({ name: "city_id" })
   city!: CityEntity;
+
+  images?: ImageEntity[];
+  tags?: TagEntity[];
+  categories?: CategoryEntity[];
+
 }

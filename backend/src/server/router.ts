@@ -4,6 +4,7 @@ import { RouteHandlerConfig, ValidationSchemas, Req, Res } from "./types";
 import { user_route_handlers } from "./service/user";
 import { announcement_route_handlers } from "./service/announcement";
 import { admin_route_handlers } from "./service/admin";
+import { image_route_handlers } from "./service/image";
 
 var validator = new Validator();
 
@@ -13,6 +14,7 @@ const all_route_configs: Array<RouteHandlerConfig> = [
   ...user_route_handlers,
   ...announcement_route_handlers,
   ...admin_route_handlers,
+  ...image_route_handlers,
 ]
 
 function validateNetworkInput(request: Req, validation_schemas: ValidationSchemas)
@@ -64,6 +66,8 @@ for(const route_config of all_route_configs) {
 
       [has_validation_errors, errors] = validateNetworkInput(req, validation_schemas);
 
+      console.log("errors: ", errors);
+
       if (has_access === true && has_validation_errors === false) {
         await handler(req, res);
       } else {
@@ -72,6 +76,7 @@ for(const route_config of all_route_configs) {
       }
 
     } catch (error) {
+      console.log("aaa: ", error);
       if (error && typeof error === "object" && error.hasOwnProperty("message")) {
         // @ts-ignore
         error_message = error.message;

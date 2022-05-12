@@ -5,15 +5,38 @@ declare module "common" {
     price: number;
     region: string;
     city: string;
-    // images: IImage[];
-    // tags: ITag[];
-    // categories: ICategories[];
+    images: IImage[];
+    tags: ITag[];
+    categories: ICategory[];
+  }
+
+  interface AnnouncementCreateRequest {
+    description: string;
+    price: number;
+    city: number;
+    region: number;
+    images: number[];
+    tags: number[];
+    categories: number[];
+  }
+
+  interface AnnouncementGetQueryRequest {
+    price_min: undefined | string;
+    price_max: undefined | string;
+
+    city_ids: undefined | string[];
+    region_ids: undefined | string[];
+    tag_ids: undefined | string[];
+    category_ids: undefined | string[];
+
+    search_query: undefined | string;
   }
 
   export interface LoginResponse {
     refresh_token: string;
     access_token: string;
-    access_token_expiry_date: string
+    access_token_expiry_date: string;
+    role: string;
   }
 
   export interface LoginRequest {
@@ -56,4 +79,31 @@ declare module "common" {
     id: number;
     name: string;
   }
+
+  export interface UserRegisterRequest {
+    email: string,
+    last_name: string,
+    name: string,
+    password: string,
+    phone_number: undefined | string,
+  }
+
+  export interface IImage {
+    id: number;
+    url: string;
+  }
+
+  export interface CreateImage {
+    image_base_64: string;
+  }
+
+  export interface RevalidateRequest {
+    refresh_token: string;
+  }
+
+  export interface RevalidateResult {
+    access_token: string;
+    access_token_expiry_date: string;
+  }
+
 }

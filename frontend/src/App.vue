@@ -1,9 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from "vue-router";
+import HomePage from "./components/HomePage.vue";
 </script>
 
 <template>
-  <RouterView />
+  <!-- <div> -->
+    <HomePage />
+    <RouterView />
+  <!-- </div> -->
 </template>
 
 <style>
@@ -11,6 +15,7 @@ import { RouterView } from "vue-router";
 body {
   display: flex;
   place-items: center;
+  font-size: 20px;
 }
 #app {
   display: flex;

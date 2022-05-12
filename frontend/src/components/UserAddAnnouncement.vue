@@ -1,73 +1,264 @@
 <script lang="ts">
+// import {Cloudinary} from "@cloudinary/url-gen";
+// import * as cll from "cloudinary";
+// eslint-disable-next-line
+// @ts-ignore
+import VueBase64FileUpload from "vue-base64-file-upload";
+import { ref, getCurrentInstance } from 'vue';
+
 import { defineComponent } from "vue";
-import { getOwnAnnouncements } from "../http_api";
-import type { IAnnouncement } from "common";
-import type { ICategory, ICity, IRegion, ITag } from "common";
+import type { ICategory, ICity, IRegion, ITag, IImage } from "common";
 import {
   getCities,
   getRegions,
   getTags,
   getCategories,
+  getOwnAnnouncements,
+  createAnnouncement,
+  uploadImage,
 } from "../http_api";
 
 interface Data {
   description: string;
   price: number;
-  city: string;
-  region: string;
-  images: string;
-  tags: string;
-  selected_category: null | ICategory;
-  selected_categories: ICategory[];
+
+  city: number;
+  region: number;
+
+  images: number[];
+  tags: number[];
+  categories: number[];
+
+  current_selected_category: null | ICategory;
+  current_selected_tag: null | ITag;
+  current_selected_city: null | ICity;
+  current_selected_region: null | IRegion;
 
   tag_list: ITag[];
   city_list: ICity[];
   region_list: IRegion[];
   category_list: ICategory[];
+  image_list: IImage[];
+
+  // cloudinary: Cloudinary;
 }
 
+const aaaaaaaada = {
+  aaaaaaaaaaa: 55,
+};
+
+// const cld = new Cloudinary({
+//   cloud: {
+//     cloudName: "ds6b98cjz",
+//   },
+// });
+
+// cll.v2.config({
+//   cloud_name: "ds6b98cjz",
+// });
+// cll.v2.uploader.upload("", {
+
+// })
+
 export default defineComponent({
+  components: {
+    // VueBase64FileUpload,
+  },
   name: "UserAddAnnouncements",
   data: function () {
     const dt: Data = {
       description: "",
       price: 0,
-      city: "",
-      region: "",
-      images: "",
-      tags: "",
 
-      selected_category: null,
-      selected_categories: [],
+      city: 0,
+      region: 0,
+
+      images: [],
+      tags: [],
+      categories: [],
+
+      current_selected_category: null,
+      current_selected_tag: null,
+      current_selected_city: null,
+      current_selected_region: null,
 
       tag_list: [],
       city_list: [],
       region_list: [],
       category_list: [],
+      image_list: [],
+
+      // cloudinary: Cloudinary;
     };
     return dt;
   },
   created() {
+    console.log('aaaaaaaada: ', aaaaaaaada);
     this.fetchLists();
   },
   computed: {
     // a computed getter
-    selectedCagts(): string {
-      // `this` points to the component instance
-      return this.selected_categories.map((c) => c.name).join(", ");
-      // selected_categories.map((c) => c.name).join(", ");
-    }
+    selectedCategories(): string {
+      let selected_category_names: string[] = [];
+
+      for (const c_id of this.categories) {
+        const c = this.category_list.find((c) => c.id === c_id);
+        if (c !== undefined) {
+          selected_category_names.push(c.name);
+        }
+      }
+
+      return selected_category_names.join(",");
+    },
+    selectedTags(): string {
+      let selected_tag_names: string[] = [];
+
+      for (const t_id of this.tags) {
+        const t = this.tag_list.find((t) => t.id === t_id);
+        if (t !== undefined) {
+          selected_tag_names.push(t.name);
+        }
+      }
+
+      return selected_tag_names.join(",");
+    },
+    selectedCity(): string {
+
+      console.log(this);
+
+      let selected_city = "";
+
+      const city = this.city_list.find((c) => c.id === this.city);
+      if (city !== undefined) {
+        selected_city = city.name;
+      }
+
+      return selected_city;
+    },
+    selectedRegion(): string {
+      let selected_region = "";
+
+      const region = this.region_list.find((r) => r.id === this.region);
+      if (region !== undefined) {
+        selected_region = region.name;
+      }
+
+      return selected_region;
+    },
+  },
+  setup() {
+    // const table = ref(null);
+
+    // console.log(table);
+    // onMounted(() => {
+    //   table.value.addEventListener('click', () => console.log("Event happened"))
+    // });
+
+    // return { table };
   },
   methods: {
+    test() {
+      console.log("tesssssssst");
+      console.log("getCurrentInstance()?.refs.image_1: ", getCurrentInstance()?.refs.image_1);
+
+      console.log("getCurrentInstance()?.refs.image_1: ", this.$refs["image_1"]);
+      const image = this.$refs["image_1"] as HTMLInputElement;
+
+      var reader = new FileReader();
+      if (image && image.files) {
+        reader.readAsDataURL(image.files[0]);
+
+        reader.onload = () => {
+          console.log("reader.result: ", reader.result);//base64encoded string
+          uploadImage({
+            // eslint-disable-next-line
+            // @ts-ignore
+            image_base_64: reader.result,
+          })
+            .then((res) => {
+              console.log(res)
+              console.log("res.data: ", res.data);
+              console.log("res.data: this.im ", this);
+
+              this.image_list.push(res.data);
+              this.images.push(res.data.id);
+            })
+            .catch((error) => {
+              console.log("upload image error", error);
+              alert("Error on upload");
+            })
+            .finally(() => {
+              // e slint-disable-next-line
+              // @ ts-ignore
+              image.value = "";
+            });
+        };
+        reader.onerror = (error) => {
+          console.log('Error: ', error);
+        };
+      }
+
+      // cld.image
+
+    },
     addAnnouncement() {
-      console.log("click on item with id");
+      console.log("payload: ", {
+        categories: this.categories,
+        city: this.city,
+        description: this.description,
+        images: this.images,
+        price: this.price,
+        region: this.region,
+        tags: this.tags,
+      });
+
+      createAnnouncement({
+        categories: this.categories,
+        city: this.city,
+        description: this.description,
+        images: this.images,
+        price: this.price,
+        region: this.region,
+        tags: this.tags,
+      })
+        .then(() => {
+          alert("Announcement successfully created");
+        })
+        .catch((error) => {
+          console.log("Error on creating announcement", error);
+          alert("Error occurred");
+        });
     },
     addCategory() {
-      if (this.selected_category !== null) {
-        this.selected_categories.push(this.selected_category);
-        this.selected_category = null;
+      if (this.current_selected_category !== null) {
+        this.categories.push(this.current_selected_category.id);
+        this.current_selected_category = null;
       }
     },
+    addTag() {
+      if (this.current_selected_tag !== null) {
+        this.tags.push(this.current_selected_tag.id);
+        this.current_selected_tag = null;
+      }
+    },
+    setCity() {
+      if (this.current_selected_city !== null) {
+        this.city = this.current_selected_city.id;
+        this.current_selected_city = null;
+      }
+    },
+    setRegion() {
+      if (this.current_selected_region !== null) {
+        this.region = this.current_selected_region.id;
+        this.current_selected_region = null;
+      }
+    },
+    // addImage() {
+    // //   if (this.selected_category !== null) {
+    // //     this.selected_categories.push(this.selected_category);
+    // //     this.selected_category = null;
+    // //   }
+    // },
     fetchLists() {
       Promise.all([getCities(), getRegions(), getTags(), getCategories()])
         .then(([ci, rg, tg, ct]) => {
@@ -80,6 +271,14 @@ export default defineComponent({
           console.log("Error on refetch", error);
         });
     },
+
+    onLoad(dataUri: string) {
+      console.log(dataUri.length); // data-uri string
+      console.log(dataUri.slice(0, 200)); // data-uri string
+    },
+    onFile(file: unknown) {
+      console.log(file); // file object
+    },
   },
 });
 </script>
@@ -90,36 +289,56 @@ export default defineComponent({
       <p class="title">Add announcement</p>
 
       <div class="add_announcement_wrapper">
-        <input type="text" placeholder="email" />
-        <input type="text" placeholder="last_name" />
-        <input type="text" placeholder="name" />
-        <input type="text" placeholder="password" />
-        <input type="text" placeholder="phone_number" />
+        <p title="100kb because of cloudinary.com free package :D">
+          *All fields are MUST and image size must be lower or equal to 100kb :D
+        </p>
 
-        <span> sle-ed cats:  {{ selectedCagts }} </span>
+        <input type="text" placeholder="description" v-model="description" />
+        <input type="number" placeholder="price" v-model="price" />
 
-        <!-- <div id="selector">
-          <select>
-            <option v-for="city in city_list" :value="city.id" :key="city.id">
-              {{ city.name }}
-            </option>
-          </select>
-          <span>Selected: {{ selected_category }}</span>
-        </div> -->
-
-        <div id="selector_1">
-          <select v-model="selected_category" v-on:change="addCategory()">
-            <option
-              v-for="category in category_list"
-              :value="category"
-              :key="category.id"
-            >
+        <div id="selector_category">
+          <select v-model="current_selected_category" v-on:change="addCategory()">
+            <option v-for="category in category_list" :value="category" :key="category.id">
               {{ category.name }}
             </option>
           </select>
-          <span>Selected: {{ 5 }}</span>
+          <span>Selected categories: {{ selectedCategories }}</span>
         </div>
 
+        <div id="selector_tag">
+          <select v-model="current_selected_tag" v-on:change="addTag()">
+            <option v-for="tag in tag_list" :value="tag" :key="tag.id">
+              {{ tag.name }}
+            </option>
+          </select>
+          <span>Selected tags: {{ selectedTags }}</span>
+        </div>
+
+        <div id="selector_city">
+          <select v-model="current_selected_city" v-on:change="setCity()">
+            <option v-for="city in city_list" :value="city" :key="city.id">
+              {{ city.name }}
+            </option>
+          </select>
+          <span>Selected city: {{ selectedCity }}</span>
+        </div>
+
+        <div id="selector_region">
+          <select v-model="current_selected_region" v-on:change="setRegion()">
+            <option v-for="region in region_list" :value="region" :key="region.id">
+              {{ region.name }}
+            </option>
+          </select>
+          <span>Selected region: {{ selectedRegion }}</span>
+        </div>
+
+        <div id="selector_image">
+          <img v-for="image in image_list" :key="image.id" v-bind:src="image.url" width="300" />
+        </div>
+
+        <!-- <cld-image public-id="mypic" /> -->
+
+        <input type="file" ref="image_1" v-on:change="test" />
 
         <button v-on:click="addAnnouncement">add</button>
       </div>
@@ -131,7 +350,12 @@ export default defineComponent({
 .wrapper {
   display: flex;
   flex-direction: row;
-  flex-grow: 0.8;
+  flex-grow: 0.2;
+  justify-content: center;
+}
+
+* {
+  margin: 5px;
 }
 
 .add_announcement_wrapper {
@@ -139,69 +363,7 @@ export default defineComponent({
   border-radius: 5px;
   margin: 5px;
   padding: 3px;
+  display: flex;
+  flex-direction: column;
 }
 </style>
-
-
-
-
-
-
-<!-- <template>
-  <div class="wrapper">
-    <div class="sidebar">
-      <div class="input_wrapper">
-        <input type="text" placeholder="tag" v-model="tag" />
-        <button v-on:click="addTagHandler">add</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="city" v-model="city" />
-        <button v-on:click="addCityHandler">add</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="region" v-model="region" />
-        <button v-on:click="addRegionHandler">add</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="category" v-model="category" />
-        <button v-on:click="addCategoryHandler">add</button>
-      </div>
-    </div>
-    <div class="result">
-      <div class="prop_list">
-        <span>tag</span>
-        <div class="item" v-for="tag in tag_list" v-bind:key="tag.id">
-          <span> {{ tag.name }} </span>
-        </div>
-      </div>
-
-      <div class="prop_list">
-        <span>city</span>
-        <div class="item" v-for="city in city_list" v-bind:key="city.id">
-          <span> {{ city.name }} </span>
-        </div>
-      </div>
-
-      <div class="prop_list">
-        <span>region</span>
-        <div class="item" v-for="region in region_list" v-bind:key="region.id">
-          <span> {{ region.name }} </span>
-        </div>
-      </div>
-
-      <div class="prop_list">
-        <span>category</span>
-        <div
-          class="item" v-for="category in category_list"
-          v-bind:key="category.id"
-        >
-          <span> {{ category.name }} </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</template>
- -->

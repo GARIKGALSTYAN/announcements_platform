@@ -1,7 +1,7 @@
 <script lang="ts">
 import router from "@/router";
 import { defineComponent } from "vue";
-import { loginRequest } from "../http_api";
+import { loginRequest, registerRequest } from "../http_api";
 import { saveTokens } from "../utils";
 
 export default defineComponent({
@@ -30,13 +30,34 @@ export default defineComponent({
         .then((result) => {
           saveTokens(result.data);
           router.push({ path: "/profile" });
+
+          this.login.email = "";
+          this.login.password = "";
         })
         .catch((error) => {
           console.log("Login error: ", error);
         });
     },
     doRegister() {
-      console.log("doRegister:(implement) ", this.register);
+      registerRequest({
+        email: this.register.email,
+        last_name: this.register.last_name,
+        name: this.register.name,
+        password: this.register.password,
+        phone_number: this.register.phone_number,
+      })
+        .then(() => {
+          alert("You successfully registered");
+
+          this.register.email = "";
+          this.register.last_name = "";
+          this.register.name = "";
+          this.register.password = "";
+          this.register.phone_number = "";
+        })
+        .catch((error) => {
+          console.log("Register error: ", error);
+        });
     },
   },
 });
@@ -44,12 +65,12 @@ export default defineComponent({
 
 <template>
   <div class="wrapper">
-    <div class="login_wrapper">
+    <div class="login_wrapper side">
       <input type="text" placeholder="email" v-model="login.email" />
       <input type="text" placeholder="password" v-model="login.password" />
       <button v-on:click="doLogin">login</button>
     </div>
-    <div class="register_wrapper">
+    <div class="register_wrapper side">
       <input type="text" placeholder="email" v-model="register.email" />
       <input type="text" placeholder="last_name" v-model="register.last_name" />
       <input type="text" placeholder="name" v-model="register.name" />
@@ -68,16 +89,34 @@ export default defineComponent({
 .wrapper {
   display: flex;
   flex-direction: row;
-  flex-grow: 0.8;
+  width: 80%;
+  margin: 0 10% 0 10%;
+  justify-content: space-around;
 }
 
-.register_wrapper {
-  flex-grow: 0.5;
-  background-color: red;
+input {
+  margin: 10px;
+  height: 25px;
+  width: 65%;
+  font-size: 20px;
 }
 
-.login_wrapper {
-  flex-grow: 0.5;
-  background-color: blue;
+button {
+  margin: 10px;
+  padding: 5px 0 5px 0;
+  width: 65%;
+  font-size: 20px;
+}
+
+.side {
+  border: 1px solid white;
+  border-radius: 5px;
+  flex-grow: 0.2;
+  padding: 1% 10% 1% 10%;
+  display: flex;
+  flex-direction: column;
+  min-height: 60%;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -1,8 +1,10 @@
 import { requestWithAuth, request } from "./requestWithAuth";
 import type {
   IAnnouncement,
+  AnnouncementCreateRequest,
   LoginResponse,
   LoginRequest,
+  UserRegisterRequest,
   CreateCategoryRequest,
   CreateCityRequest,
   CreateRegionRequest,
@@ -11,6 +13,8 @@ import type {
   ICity,
   IRegion,
   ITag,
+  CreateImage,
+  IImage,
 } from "common";
 
 export function getOwnAnnouncements() {
@@ -20,10 +24,26 @@ export function getOwnAnnouncements() {
   });
 }
 
+export function createAnnouncement(args: AnnouncementCreateRequest) {
+  return requestWithAuth<unknown>({
+    method: "POST",
+    path: "/announcement",
+    body: args,
+  });
+}
+
 export function loginRequest(args: LoginRequest) {
   return request<LoginResponse>({
     method: "POST",
     path: "/user/login",
+    body: args,
+  });
+}
+
+export function registerRequest(args: UserRegisterRequest) {
+  return request<UserRegisterRequest>({
+    method: "POST",
+    path: "/user",
     body: args,
   });
 }
@@ -85,5 +105,13 @@ export function getCategories() {
   return requestWithAuth<ICategory[]>({
     method: "GET",
     path: "/category",
+  });
+}
+
+export function uploadImage(args: CreateImage) {
+  return requestWithAuth<IImage>({
+    method: "POST",
+    path: "/image",
+    body: args,
   });
 }

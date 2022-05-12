@@ -3,13 +3,17 @@ import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
 import { generatePasswordHash } from "../../shared/utils";
 import { app_environment_variables } from "../../env.config";
+import {
+  RevalidateRequest,
+  RevalidateResult,
+} from "common";
 
 
 export const user_route_handlers: Array<RouteHandlerConfig> = [
   {
     name: "USER CREATE/REGISTRATION",
 
-    access: [UserRole.ADMIN, UserRole.USER],
+    access: null,
     method: HTTPMethod.POST,
     path: '/user',
     validation_schemas: {
@@ -139,6 +143,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
           refresh_token: user_refresh_token.value,
           access_token: user_access_token.value,
           access_token_expiry_date: user_access_token.expiry_date,
+          role: user.role,
         });
         res.end();
       } catch (error) {
@@ -147,7 +152,60 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
         res.end();
       }
     },
+  },
+
+  {
+    name: "Get new access token",
+
+    access: null,
+    method: HTTPMethod.POST,
+    path: '/revalidate',
+    validation_schemas: {
+      body: {
+        "type": "object",
+        "properties": {
+          "refresh_token": {
+            "title": "Refresh token",
+            "type": "string",
+          }
+        },
+        "required": ["refresh_token"],
+      },
+      params: undefined,
+      query: undefined,
+    },
+    handler: async (
+      req: Req<any, any, RevalidateRequest, any, any>,
+      res: Res<RevalidateResult>,
+    ) => {
+      const { body } = req;
+
+      const refresh_tokens = await StorageAPI.RefreshTokens.getMany({
+        token: body.refresh_token,
+        id: undefined,
+        user_id: undefined,
+      });
+
+      const refresh_token = refresh_tokens[0];
+
+      if (refresh_token === undefined) {
+        throw new Error("Credentials are invalid");
+      }
+
+      const new_access_token = await StorageAPI.AccessTokens.create({
+        user_id: refresh_token.user_id,
+        refresh_token_id: refresh_token.id,
+        expiry_date: new Date(Date.now() + app_environment_variables.server.access_token_expiration_time_ms),
+      });
+
+      res.json({
+        access_token: new_access_token.value,
+        access_token_expiry_date: new_access_token.expiry_date.toString(),
+      });
+      res.end();
+    },
   }
+
 ];
 
 interface IUserCreateBody {

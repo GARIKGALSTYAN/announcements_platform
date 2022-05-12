@@ -1,43 +1,60 @@
 
-// import { UserEntity } from "../../entities/users";
-// import {
-//   IStorageUser,
-//   IStorageCreateUserArgs,
-// } from "./types";
-// import { entityToOutType } from "./entityToOutType";
+import { UserEntity } from "../../entities/users";
+import { CityEntity } from "../../entities/city";
+import { RegionEntity } from "../../entities/region";
 
-// export async function create(args: IStorageCreateUserArgs): Promise<IStorageUser> {
-//   const {
-//     email,
-//     is_verified,
-//     last_name,
-//     name,
-//     password,
-//     phone_number,
-//     role,
-//   } = args;
+import { CategoryEntity } from "../../entities/category";
+import { TagEntity } from "../../entities/tag";
+import { ImageEntity } from "../../entities/image";
 
-//   const users = await UserEntity.Repository.find({
-//     where: {
-//       email: args.email,
-//       // is_verified: true,
-//     }
-//   });
+import { CategoriesToAnnouncementsEntity } from "../../entities/categories_to_announcements";
+import { TagsToAnnouncementsEntity } from "../../entities/tags_to_announcements";
+import { ImagesToAnnouncementsEntity } from "../../entities/images_to_announcements";
 
-//   if (users.length > 0) {
-//     throw new Error("User already exists");
-//   }
+import { data_source } from "../../";
 
-//   const user = new UserEntity();
-//   user.name = name;
-//   user.last_name = last_name;
-//   user.phone_number = phone_number;
-//   user.email = email;
-//   user.password = password;
-//   user.is_verified = is_verified;
-//   user.role = role;
+import {
+  IAnnouncement,
+  ICreateAnnouncementArgs,
+  IDeleteAnnouncementArgs,
+} from "./types";
+import { entityToOutType } from "./entityToOutType";
+import { AnnouncementEntity } from "../../entities";
 
-//   await UserEntity.Repository.save(user);
+export async function deleteById(args: IDeleteAnnouncementArgs): Promise<void> {
+  const {
+    id,
+  } = args;
 
-//   return entityToOutType(user);
-// }
+  await AnnouncementEntity.Repository
+    .createQueryBuilder()
+    .delete()
+    .from(AnnouncementEntity)
+    .where("id = :id", { id })
+    .execute();
+
+  await Promise.all([
+    CategoriesToAnnouncementsEntity.Repository
+    .createQueryBuilder()
+    .delete()
+    .from(CategoriesToAnnouncementsEntity)
+    .where("announcement_id = :id", { id })
+    .execute(),
+
+    TagsToAnnouncementsEntity.Repository
+    .createQueryBuilder()
+    .delete()
+    .from(TagsToAnnouncementsEntity)
+    .where("announcement_id = :id", { id })
+    .execute(),
+
+    ImagesToAnnouncementsEntity.Repository
+    .createQueryBuilder()
+    .delete()
+    .from(ImagesToAnnouncementsEntity)
+    .where("announcement_id = :id", { id })
+    .execute(),
+  ]);
+
+  return;
+}

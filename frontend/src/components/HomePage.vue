@@ -25,7 +25,7 @@ interface Data {
 }
 
 export default defineComponent({
-  name: "AdminPanel",
+  name: "HomePage",
   data: function () {
     const dt: Data = {
       tag: "",
@@ -111,81 +111,29 @@ export default defineComponent({
 
 <template>
   <div class="wrapper">
-    <div class="sidebar">
-      <div class="input_wrapper">
-        <input type="text" placeholder="tag" v-model="tag" />
-        <button v-on:click="addTagHandler">add tag</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="city" v-model="city" />
-        <button v-on:click="addCityHandler">add city</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="region" v-model="region" />
-        <button v-on:click="addRegionHandler">add region</button>
-      </div>
-
-      <div class="input_wrapper">
-        <input type="text" placeholder="category" v-model="category" />
-        <button v-on:click="addCategoryHandler">add category</button>
-      </div>
-    </div>
-    <div class="result">
-      <div class="list">
-        <span class="title">tags</span>
-        <div class="prop_list">
-          <div class="item" v-for="tag in tag_list" v-bind:key="tag.id">
-            <span> {{ tag.name }} </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="list">
-        <span class="title">cities</span>
-        <div class="prop_list">
-          <div class="item" v-for="city in city_list" v-bind:key="city.id">
-            <span> {{ city.name }} </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="list">
-        <span class="title">regions</span>
-        <div class="prop_list">
-          <div
-            class="item"
-            v-for="region in region_list"
-            v-bind:key="region.id"
-          >
-            <span> {{ region.name }} </span>
-          </div>
-        </div>
-      </div>
-
-      <div class="list">
-        <span class="title">categories</span>
-        <div class="prop_list">
-          <div
-            class="item"
-            v-for="category in category_list"
-            v-bind:key="category.id"
-          >
-            <span> {{ category.name }} </span>
-          </div>
-        </div>
-      </div>
+    <div>
+      <a href="login"> Login/Registration </a>
+      <a href="profile"> Profile </a>
+      <a href="admin"> Admin </a>
+      <a href="add"> Add New </a>
     </div>
   </div>
 </template>
 
 <style scoped>
 .wrapper {
+  position: fixed;
+  left: 0px;
+  top: 0px;
   display: flex;
   flex-direction: row;
   flex-grow: 0.8;
-  height: 70%;
+  /* height: 70%; */
+}
+
+a {
+  color: white;
+  margin: 10px;
 }
 
 .sidebar {

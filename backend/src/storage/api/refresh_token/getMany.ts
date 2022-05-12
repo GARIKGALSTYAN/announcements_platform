@@ -17,13 +17,14 @@ export async function getMany(args: IGetManyRefreshTokenArgs): Promise<IRefreshT
 
   const query = RefreshTokenEntity.Repository.createQueryBuilder('ref_token');
 
+  query.leftJoinAndMapOne(
+    "ref_token.user",
+    UserEntity,
+    'user',
+    'ref_token.user_id = user.id',
+  );
+
   if (user_id !== undefined) {
-    query.leftJoinAndMapOne(
-      "ref_token.user",
-      UserEntity,
-      'user',
-      'ref_token.user_id = user.id',
-    );
     query.andWhere("user.id = :user_id", { user_id });
   }
 
