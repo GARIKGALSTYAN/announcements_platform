@@ -128,7 +128,6 @@ export default defineComponent({
   display: flex;
   flex-direction: row;
   flex-grow: 0.8;
-  /* height: 70%; */
 }
 
 a {
@@ -138,7 +137,6 @@ a {
 
 .sidebar {
   flex-grow: 0.2;
-  /* background-color: red; */
   justify-content: center;
   align-items: center;
   display: flex;
@@ -148,12 +146,10 @@ a {
 
 .result {
   flex-grow: 0.8;
-  /* background-color: rgb(215, 196, 196); */
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   height: 70%;
-  /* align-items: baseline; */
 }
 
 .input_wrapper {

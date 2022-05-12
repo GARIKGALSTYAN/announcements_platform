@@ -1,11 +1,4 @@
 <script lang="ts">
-// import {Cloudinary} from "@cloudinary/url-gen";
-// import * as cll from "cloudinary";
-// eslint-disable-next-line
-// @ts-ignore
-import VueBase64FileUpload from "vue-base64-file-upload";
-import { ref, getCurrentInstance } from 'vue';
-
 import { defineComponent } from "vue";
 import type { ICategory, ICity, IRegion, ITag, IImage } from "common";
 import {
@@ -13,7 +6,6 @@ import {
   getRegions,
   getTags,
   getCategories,
-  getOwnAnnouncements,
   createAnnouncement,
   uploadImage,
 } from "../http_api";
@@ -39,26 +31,7 @@ interface Data {
   region_list: IRegion[];
   category_list: ICategory[];
   image_list: IImage[];
-
-  // cloudinary: Cloudinary;
 }
-
-const aaaaaaaada = {
-  aaaaaaaaaaa: 55,
-};
-
-// const cld = new Cloudinary({
-//   cloud: {
-//     cloudName: "ds6b98cjz",
-//   },
-// });
-
-// cll.v2.config({
-//   cloud_name: "ds6b98cjz",
-// });
-// cll.v2.uploader.upload("", {
-
-// })
 
 export default defineComponent({
   components: {
@@ -93,7 +66,6 @@ export default defineComponent({
     return dt;
   },
   created() {
-    console.log('aaaaaaaada: ', aaaaaaaada);
     this.fetchLists();
   },
   computed: {
@@ -123,7 +95,6 @@ export default defineComponent({
       return selected_tag_names.join(",");
     },
     selectedCity(): string {
-
       console.log(this);
 
       let selected_city = "";
@@ -146,22 +117,8 @@ export default defineComponent({
       return selected_region;
     },
   },
-  setup() {
-    // const table = ref(null);
-
-    // console.log(table);
-    // onMounted(() => {
-    //   table.value.addEventListener('click', () => console.log("Event happened"))
-    // });
-
-    // return { table };
-  },
   methods: {
     test() {
-      console.log("tesssssssst");
-      console.log("getCurrentInstance()?.refs.image_1: ", getCurrentInstance()?.refs.image_1);
-
-      console.log("getCurrentInstance()?.refs.image_1: ", this.$refs["image_1"]);
       const image = this.$refs["image_1"] as HTMLInputElement;
 
       var reader = new FileReader();
@@ -169,14 +126,14 @@ export default defineComponent({
         reader.readAsDataURL(image.files[0]);
 
         reader.onload = () => {
-          console.log("reader.result: ", reader.result);//base64encoded string
+          console.log("reader.result: ", reader.result);
           uploadImage({
             // eslint-disable-next-line
             // @ts-ignore
             image_base_64: reader.result,
           })
             .then((res) => {
-              console.log(res)
+              console.log(res);
               console.log("res.data: ", res.data);
               console.log("res.data: this.im ", this);
 
@@ -188,18 +145,13 @@ export default defineComponent({
               alert("Error on upload");
             })
             .finally(() => {
-              // e slint-disable-next-line
-              // @ ts-ignore
               image.value = "";
             });
         };
         reader.onerror = (error) => {
-          console.log('Error: ', error);
+          console.log("Reader error: ", error);
         };
       }
-
-      // cld.image
-
     },
     addAnnouncement() {
       console.log("payload: ", {
@@ -297,8 +249,15 @@ export default defineComponent({
         <input type="number" placeholder="price" v-model="price" />
 
         <div id="selector_category">
-          <select v-model="current_selected_category" v-on:change="addCategory()">
-            <option v-for="category in category_list" :value="category" :key="category.id">
+          <select
+            v-model="current_selected_category"
+            v-on:change="addCategory()"
+          >
+            <option
+              v-for="category in category_list"
+              :value="category"
+              :key="category.id"
+            >
               {{ category.name }}
             </option>
           </select>
@@ -325,7 +284,11 @@ export default defineComponent({
 
         <div id="selector_region">
           <select v-model="current_selected_region" v-on:change="setRegion()">
-            <option v-for="region in region_list" :value="region" :key="region.id">
+            <option
+              v-for="region in region_list"
+              :value="region"
+              :key="region.id"
+            >
               {{ region.name }}
             </option>
           </select>
@@ -333,7 +296,12 @@ export default defineComponent({
         </div>
 
         <div id="selector_image">
-          <img v-for="image in image_list" :key="image.id" v-bind:src="image.url" width="300" />
+          <img
+            v-for="image in image_list"
+            :key="image.id"
+            v-bind:src="image.url"
+            width="300"
+          />
         </div>
 
         <!-- <cld-image public-id="mypic" /> -->

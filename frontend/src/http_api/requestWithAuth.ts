@@ -1,7 +1,6 @@
 import axios from "axios";
 import type { Method } from "axios";
 import { getAccessToken, getRefreshToken, setAccessToken } from "../utils";
-import type { RevalidateRequest, RevalidateResult } from "common";
 
 const API_URL = import.meta.env.VITE_APP_API_URL;
 
@@ -10,8 +9,6 @@ export interface HTTPRequestArgs {
   method: Method;
   body?: object;
 }
-
-
 
 export function tryToRevalidate() {
   const access_token = getAccessToken();
@@ -24,7 +21,8 @@ export function tryToRevalidate() {
     }
 
     console.log("p 2");
-    axios.request({
+    axios
+      .request({
         method: "POST",
         url: API_URL + "/revalidate",
         data: { refresh_token: ref_token },

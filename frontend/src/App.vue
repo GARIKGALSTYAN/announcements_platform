@@ -4,10 +4,8 @@ import HomePage from "./components/HomePage.vue";
 </script>
 
 <template>
-  <!-- <div> -->
-    <HomePage />
-    <RouterView />
-  <!-- </div> -->
+  <HomePage />
+  <RouterView />
 </template>
 
 <style>
