@@ -1,6 +1,6 @@
 import express from "express";
-import { UserRole, HTTPMethod } from "../shared";
 import { Schema } from "jsonschema";
+import { UserRole, HTTPMethod } from "../shared";
 
 
 export interface Req<T1 = any, T2 = any, T3 = any, T4 = any, T5 = any>

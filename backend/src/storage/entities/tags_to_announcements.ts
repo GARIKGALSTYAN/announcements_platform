@@ -2,7 +2,6 @@ import {
   Entity,
   ManyToOne,
   JoinColumn,
-  
 } from "typeorm";
 import { BaseEntity } from "./base";
 import { TagEntity } from "./tag";

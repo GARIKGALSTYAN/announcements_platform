@@ -19,5 +19,4 @@ export class BaseEntity {
 
   @Column({ type: 'timestamptz', nullable: false })
   updated_at!: Date;
-
 }

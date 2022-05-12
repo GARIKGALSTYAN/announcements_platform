@@ -16,7 +16,6 @@ cloudinary.v2.config({
 export const image_route_handlers: Array<RouteHandlerConfig> = [
   {
     name: "Create image",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.POST,
     path: '/image',
@@ -42,8 +41,6 @@ export const image_route_handlers: Array<RouteHandlerConfig> = [
     ) => {
       const { body } = req;
 
-      console.log("body.image_base_64: ", body.image_base_64.length);
-
       let image_url: null | string = null;
 
       try {
@@ -51,11 +48,8 @@ export const image_route_handlers: Array<RouteHandlerConfig> = [
           body.image_base_64,
         );
 
-        console.log("upload_result: ", upload_result);
-        console.log("upload_result:: ", JSON.stringify(upload_result, null, 2));
-        image_url = upload_result.url; // or .secure_url
+        image_url = upload_result.url;
       } catch (error) {
-        console.log("error on upload: ", error);
         throw error;
       }
 

@@ -2,22 +2,19 @@
 import { AnnouncementEntity } from "../../entities/announcements";
 import { CityEntity } from "../../entities/city";
 import { RegionEntity } from "../../entities/region";
-
 import { TagsToAnnouncementsEntity } from "../../entities/tags_to_announcements";
 import { ImagesToAnnouncementsEntity } from "../../entities/images_to_announcements";
 import { CategoriesToAnnouncementsEntity } from "../../entities/categories_to_announcements";
-
 import { Brackets } from "typeorm";
 import {
   IAnnouncement,
   IGetManyAnnouncementArgs,
 } from "./types";
 import { entityToOutType } from "./entityToOutType";
-
 import { CategoryEntity } from "../../entities/category";
 import { TagEntity } from "../../entities/tag";
 import { ImageEntity } from "../../entities/image";
-import console from "console";
+
 
 export async function getMany(args: IGetManyAnnouncementArgs): Promise<IAnnouncement[]> {
   const {
@@ -128,8 +125,6 @@ export async function getMany(args: IGetManyAnnouncementArgs): Promise<IAnnounce
   if (user_id !== undefined) {
     query.andWhere('ann.user_id = :user_id', { user_id });
   }
-
-  console.log("console.loh(): ", query.getQueryAndParameters())
 
   const announcements = await query.getMany();
 

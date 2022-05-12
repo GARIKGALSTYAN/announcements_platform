@@ -1,6 +1,3 @@
-import { UserRole } from "../../../shared";
-
-
 export interface IAccessToken {
   id: number;
   user_id: number;

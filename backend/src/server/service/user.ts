@@ -1,18 +1,19 @@
+import { app_environment_variables } from "../../env.config";
 import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
-import { generatePasswordHash } from "../../shared/utils";
-import { app_environment_variables } from "../../env.config";
+import { generatePasswordHash } from "../../utils";
 import {
   RevalidateRequest,
   RevalidateResult,
+  IUserCreateBody,
+  IUserLoginBody,
 } from "common";
 
 
 export const user_route_handlers: Array<RouteHandlerConfig> = [
   {
-    name: "USER CREATE/REGISTRATION",
-
+    name: "User registration",
     access: null,
     method: HTTPMethod.POST,
     path: '/user',
@@ -62,7 +63,6 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<any, any, IUserCreateBody>,
       res: Res,
     ) => {
-
       const { body } = req;
 
       const password_hash = generatePasswordHash(body.password);
@@ -82,8 +82,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
     },
   },
   {
-    name: "USER LOGIN",
-
+    name: "User login",
     access: null,
     method: HTTPMethod.POST,
     path: '/user/login',
@@ -115,48 +114,41 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<any, any, IUserLoginBody, any, any>,
       res: Res,
     ) => {
-      try {
-        const { body } = req;
+      const { body } = req;
 
-        const password_hash = generatePasswordHash(body.password);
+      const password_hash = generatePasswordHash(body.password);
 
-        const user = await StorageAPI.Users.userLogin({
-          email: body.email,
-          password: password_hash,
-        });
+      const user = await StorageAPI.Users.userLogin({
+        email: body.email,
+        password: password_hash,
+      });
 
-        if (user === null) {
-          throw new Error("Invalid credentials");
-        }
-
-        const user_refresh_token = await StorageAPI.RefreshTokens.create({
-          user_id: user.id,
-        });
-
-        const user_access_token = await StorageAPI.AccessTokens.create({
-          user_id: user.id,
-          refresh_token_id: user_refresh_token.id,
-          expiry_date: new Date(Date.now() + app_environment_variables.server.access_token_expiration_time_ms),
-        });
-
-        res.json({
-          refresh_token: user_refresh_token.value,
-          access_token: user_access_token.value,
-          access_token_expiry_date: user_access_token.expiry_date,
-          role: user.role,
-        });
-        res.end();
-      } catch (error) {
-        res.status(400);
-        res.statusMessage = "Can't login";
-        res.end();
+      if (user === null) {
+        throw new Error("Invalid credentials");
       }
+
+      const user_refresh_token = await StorageAPI.RefreshTokens.create({
+        user_id: user.id,
+      });
+
+      const user_access_token = await StorageAPI.AccessTokens.create({
+        user_id: user.id,
+        refresh_token_id: user_refresh_token.id,
+        expiry_date: new Date(Date.now() + app_environment_variables.server.access_token_expiration_time_ms),
+      });
+
+      res.json({
+        refresh_token: user_refresh_token.value,
+        access_token: user_access_token.value,
+        access_token_expiry_date: user_access_token.expiry_date,
+        role: user.role,
+      });
+      res.end();
     },
   },
 
   {
     name: "Get new access token",
-
     access: null,
     method: HTTPMethod.POST,
     path: '/revalidate',
@@ -207,17 +199,3 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
   }
 
 ];
-
-interface IUserCreateBody {
-  email: string,
-  last_name: string,
-  name: string,
-  password: string,
-  phone_number: undefined | string,
-}
-
-interface IUserLoginBody {
-  email: string,
-  password: string,
-}
-

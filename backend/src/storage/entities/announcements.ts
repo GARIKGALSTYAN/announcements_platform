@@ -2,7 +2,6 @@ import {
   Entity,
   Column,
   ManyToOne,
-  OneToMany,
   JoinColumn,
 } from "typeorm";
 import { BaseEntity } from "./base";
@@ -42,5 +41,4 @@ export class AnnouncementEntity extends BaseEntity {
   images?: ImageEntity[];
   tags?: TagEntity[];
   categories?: CategoryEntity[];
-
 }

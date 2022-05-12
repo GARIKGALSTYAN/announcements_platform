@@ -1,14 +1,18 @@
 import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
-import { IAnnouncement, AnnouncementGetQueryRequest } from "common";
-import { parseToNumber, parseToNumberArray } from "../../shared/utils";
+import {
+  IAnnouncement,
+  AnnouncementGetQueryRequest,
+  IAnnouncementCreateBody,
+  IAnnouncementUpdateBody,
+} from "common";
+import { parseToNumber, parseToNumberArray } from "../../utils";
 
 
 export const announcement_route_handlers: Array<RouteHandlerConfig> = [
   {
     name: "Create announcement",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.POST,
     path: '/announcement',
@@ -92,7 +96,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Get requester user announcements",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.GET,
     path: '/my_announcement',
@@ -118,9 +121,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         search_query: undefined,
       });
 
-      console.log("announcements: ", announcements)
-      console.log("announcements: ", JSON.stringify(announcements, null, 2))
-
       res.json(announcements);
       res.end();
     },
@@ -128,16 +128,12 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Get announcements by filters",
-
-    access: null, // [UserRole.ADMIN, UserRole.USER],
+    access: null,
     method: HTTPMethod.GET,
     path: '/announcement',
     validation_schemas: {
       body: undefined,
       params: undefined,
-
-
-
       query: {
         "type": "object",
         "properties": {
@@ -157,7 +153,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
             "type": "array",
             "items": {
               "type": "string",
-              // "minLength": 1,
               "pattern": "^[0-9]{1,}$",
             },
             "minItems": 1,
@@ -166,7 +161,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
             "type": "array",
             "items": {
               "type": "string",
-              // "minLength": 1,
               "pattern": "^[0-9]{1,}$",
             },
             "minItems": 1,
@@ -175,7 +169,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
             "type": "array",
             "items": {
               "type": "string",
-              // "minLength": 1,
               "pattern": "^[0-9]{1,}$",
             },
             "minItems": 1,
@@ -184,7 +177,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
             "type": "array",
             "items": {
               "type": "string",
-              // "minLength": 1,
               "pattern": "^[0-9]{1,}$",
             },
             "minItems": 1,
@@ -201,8 +193,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       res: Res,
     ) => {
 
-      console.log("req.query: ", req.query);
-
       const announcements = await StorageAPI.Announcements.getMany({
         user_id: res.locals.user_id,
         ids: undefined,
@@ -215,9 +205,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         search_query: req.query.search_query,
       });
 
-      console.log("announcements: ", announcements)
-      console.log("announcements: ", JSON.stringify(announcements, null, 2))
-
       res.json(announcements);
       res.end();
     },
@@ -225,7 +212,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Delete announcements",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.DELETE,
     path: '/announcement/:id',
@@ -238,7 +224,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<{id: number}, any, any>,
       res: Res,
     ) => {
-
       const ann_id = req.params.id;
 
       const announcements = await StorageAPI.Announcements.getMany({
@@ -253,8 +238,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         search_query: undefined,
       });
 
-      console.log("announcements: ", announcements);
-
       if (announcements[0] !== undefined) {
         await StorageAPI.Announcements.deleteById({
           id: ann_id,
@@ -268,7 +251,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Update announcement",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.PATCH,
     path: '/announcement/:id',
@@ -324,7 +306,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       req: Req<{id: number}, any, IAnnouncementUpdateBody>,
       res: Res<IAnnouncement>,
     ) => {
-
       const ann_id = req.params.id;
 
       const announcements = await StorageAPI.Announcements.getMany({
@@ -338,8 +319,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         category_ids: undefined,
         search_query: undefined,
       });
-
-      console.log("announcements: ", announcements);
 
       if (announcements[0] !== undefined) {
         const updated_ann = await StorageAPI.Announcements.update({
@@ -358,28 +337,6 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       } else {
         throw new Error("Unable to update");
       }
-
-
     },
   },
 ];
-
-interface IAnnouncementCreateBody {
-  description: string;
-  price: number;
-  city: number;
-  region: number;
-  images: number[];
-  tags: number[];
-  categories: number[];
-}
-
-interface IAnnouncementUpdateBody {
-  description: undefined | string;
-  price: undefined | number;
-  city: undefined | number;
-  region: undefined | number;
-  images: undefined | number[];
-  tags: undefined | number[];
-  categories: undefined | number[];
-}

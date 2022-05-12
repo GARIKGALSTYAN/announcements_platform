@@ -6,9 +6,9 @@ import { announcement_route_handlers } from "./service/announcement";
 import { admin_route_handlers } from "./service/admin";
 import { image_route_handlers } from "./service/image";
 
-var validator = new Validator();
-
 export const router = express.Router();
+
+const validator = new Validator();
 
 const all_route_configs: Array<RouteHandlerConfig> = [
   ...user_route_handlers,
@@ -18,7 +18,7 @@ const all_route_configs: Array<RouteHandlerConfig> = [
 ]
 
 function validateNetworkInput(request: Req, validation_schemas: ValidationSchemas)
-: [boolean, Array<ValidationError>] {
+ :[boolean, Array<ValidationError>] {
   const errors: ValidationError[] = [];
 
   if (validation_schemas.body !== undefined) {
@@ -49,7 +49,7 @@ for(const route_config of all_route_configs) {
       handler,
       validation_schemas,
       // @ts-ignore
-    } = (this as RouteHandlerConfig)
+    } = (this as RouteHandlerConfig);
 
     let error_message: string = "Unknown error";
 
@@ -57,7 +57,7 @@ for(const route_config of all_route_configs) {
 
       let has_access = true;
       let has_validation_errors = false;
-      let errors: ValidationError[] = []
+      let errors: ValidationError[] = [];
 
       if (access !== null && access.length) {
         const requester_role = res.locals.role;
@@ -66,17 +66,14 @@ for(const route_config of all_route_configs) {
 
       [has_validation_errors, errors] = validateNetworkInput(req, validation_schemas);
 
-      console.log("errors: ", errors);
-
       if (has_access === true && has_validation_errors === false) {
         await handler(req, res);
       } else {
-        if (has_access === false) { throw new Error("No access to endpoint") }
-        if (has_validation_errors === true) { throw new Error("Invalid input") }
+        if (has_access === false) { throw new Error("No access to endpoint"); }
+        if (has_validation_errors === true) { throw new Error("Invalid input"); }
       }
 
     } catch (error) {
-      console.log("aaa: ", error);
       if (error && typeof error === "object" && error.hasOwnProperty("message")) {
         // @ts-ignore
         error_message = error.message;
@@ -84,7 +81,7 @@ for(const route_config of all_route_configs) {
         error_message = "Some error occurred";
       }
 
-      res.status(400)
+      res.status(400);
       res.json({
         error_message,
       });

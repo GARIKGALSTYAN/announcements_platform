@@ -6,7 +6,7 @@ import {
   IRefreshToken,
 } from "./types";
 import { entityToOutType } from "./entityToOutType";
-import { generateRandomToken } from "../../../shared/utils";
+import { generateRandomToken } from "../../../utils";
 
 
 export async function create(args: ICreateRefreshTokenArgs): Promise<IRefreshToken> {

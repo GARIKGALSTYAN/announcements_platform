@@ -1,24 +1,7 @@
-
-import { UserEntity } from "../../entities/users";
-import { CityEntity } from "../../entities/city";
-import { RegionEntity } from "../../entities/region";
-
-import { CategoryEntity } from "../../entities/category";
-import { TagEntity } from "../../entities/tag";
-import { ImageEntity } from "../../entities/image";
-
 import { CategoriesToAnnouncementsEntity } from "../../entities/categories_to_announcements";
 import { TagsToAnnouncementsEntity } from "../../entities/tags_to_announcements";
 import { ImagesToAnnouncementsEntity } from "../../entities/images_to_announcements";
-
-import { data_source } from "../../";
-
-import {
-  IAnnouncement,
-  ICreateAnnouncementArgs,
-  IDeleteAnnouncementArgs,
-} from "./types";
-import { entityToOutType } from "./entityToOutType";
+import { IDeleteAnnouncementArgs } from "./types";
 import { AnnouncementEntity } from "../../entities";
 
 export async function deleteById(args: IDeleteAnnouncementArgs): Promise<void> {

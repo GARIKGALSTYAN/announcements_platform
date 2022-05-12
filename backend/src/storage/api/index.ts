@@ -7,4 +7,3 @@ export * as Region from "./region";
 export * as Category from "./category";
 export * as Tag from "./tag";
 export * as Image from "./image";
-export * as TagsToAnnouncements from "./tags_to_announcements";

@@ -6,6 +6,7 @@ import {
 } from "./types";
 import { entityToOutType } from "./entityToOutType";
 
+
 export async function create(args: IStorageCreateUserArgs): Promise<IStorageUser> {
   const {
     email,
@@ -20,7 +21,6 @@ export async function create(args: IStorageCreateUserArgs): Promise<IStorageUser
   const users = await UserEntity.Repository.find({
     where: {
       email: args.email,
-      // is_verified: true,
     }
   });
 

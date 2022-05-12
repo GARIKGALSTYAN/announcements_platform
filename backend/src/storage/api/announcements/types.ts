@@ -1,9 +1,3 @@
-import { CityEntity } from "../../entities/city";
-import { TagEntity } from "../../entities/tag";
-import { RegionEntity } from "../../entities/region";
-import { CategoryEntity } from "../../entities/category";
-import { ImageEntity } from "../../entities/image";
-
 import { IImage } from "../image";
 import { ITag } from "../tag";
 import { ICategory } from "../category";

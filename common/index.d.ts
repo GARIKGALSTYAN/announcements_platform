@@ -106,4 +106,37 @@ declare module "common" {
     access_token_expiry_date: string;
   }
 
+  export interface IUserCreateBody {
+    email: string,
+    last_name: string,
+    name: string,
+    password: string,
+    phone_number: undefined | string,
+  }
+
+  export interface IUserLoginBody {
+    email: string,
+    password: string,
+  }
+
+  export interface IAnnouncementCreateBody {
+    description: string;
+    price: number;
+    city: number;
+    region: number;
+    images: number[];
+    tags: number[];
+    categories: number[];
+  }
+
+  export interface IAnnouncementUpdateBody {
+    description: undefined | string;
+    price: undefined | number;
+    city: undefined | number;
+    region: undefined | number;
+    images: undefined | number[];
+    tags: undefined | number[];
+    categories: undefined | number[];
+  }
+
 }

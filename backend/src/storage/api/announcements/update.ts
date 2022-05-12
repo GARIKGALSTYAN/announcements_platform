@@ -1,26 +1,17 @@
-
-import { UserEntity } from "../../entities/users";
+import { In } from "typeorm";
 import { CityEntity } from "../../entities/city";
-import { RegionEntity } from "../../entities/region";
-
 import { CategoryEntity } from "../../entities/category";
 import { TagEntity } from "../../entities/tag";
-import { ImageEntity } from "../../entities/image";
-
 import { CategoriesToAnnouncementsEntity } from "../../entities/categories_to_announcements";
 import { TagsToAnnouncementsEntity } from "../../entities/tags_to_announcements";
 import { ImagesToAnnouncementsEntity } from "../../entities/images_to_announcements";
-
-import { data_source } from "../../";
 import { getMany } from "./getMany";
-
 import {
   IAnnouncement,
   IUpdateAnnouncementArgs,
 } from "./types";
-import { entityToOutType } from "./entityToOutType";
 import { AnnouncementEntity } from "../../entities";
-import { In } from "typeorm";
+
 
 export async function update(args: IUpdateAnnouncementArgs): Promise<IAnnouncement> {
   const {

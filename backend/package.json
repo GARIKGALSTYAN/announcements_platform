@@ -5,10 +5,9 @@
   "scripts": {
     "dev": "npx rimraf dist && npx tsc && yarn start",
     "rm": "npx rimraf dist",
-    "re": "yarn rm && yarn build",
+    "rebuild": "yarn rm && yarn build",
     "build": "npx tsc",
     "start": "node dist/src/server/index.js",
-    "heroku-postbuild": "npx tsc",
     "upcom": "yarn upgrade common"
   },
   "dependencies": {

@@ -7,7 +7,7 @@ import {
   ICreateAccessTokenArgs,
 } from "./types";
 import { entityToOutType } from "./entityToOutType";
-import { generateRandomToken } from "../../../shared/utils";
+import { generateRandomToken } from "../../../utils";
 
 
 export async function create(args: ICreateAccessTokenArgs): Promise<IAccessToken> {

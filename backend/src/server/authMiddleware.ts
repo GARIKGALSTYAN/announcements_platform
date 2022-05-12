@@ -1,6 +1,6 @@
-import { Req, Res, RequestUserAuthData } from "./types";
+import { Req, Res } from "./types";
 import { StorageAPI } from "../storage";
-import { UserRole } from "../shared";
+
 
 export async function authMiddleware(req: Req, res: Res, next: Function) {
   res.locals.auth = false;

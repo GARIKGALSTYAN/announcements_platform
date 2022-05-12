@@ -1,7 +1,6 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
 } from "typeorm";
 import { BaseEntity } from "./base";
 import { UserRole } from "../../shared";

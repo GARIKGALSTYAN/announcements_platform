@@ -1,5 +1,3 @@
-import { UserRole } from "../../../shared";
-
 export interface IRefreshToken {
   id: number;
   user_id: number;

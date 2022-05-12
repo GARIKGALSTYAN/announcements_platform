@@ -16,7 +16,6 @@ import {
 export const admin_route_handlers: Array<RouteHandlerConfig> = [
   {
     name: "Add City",
-
     access: [UserRole.ADMIN],
     method: HTTPMethod.POST,
     path: '/city',
@@ -53,7 +52,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Add Region",
-
     access: [UserRole.ADMIN],
     method: HTTPMethod.POST,
     path: '/region',
@@ -90,7 +88,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Add Category",
-
     access: [UserRole.ADMIN],
     method: HTTPMethod.POST,
     path: '/category',
@@ -127,7 +124,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
 
   {
     name: "Add Tag",
-
     access: [UserRole.ADMIN],
     method: HTTPMethod.POST,
     path: '/tag',
@@ -161,12 +157,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
-
-
-
   {
     name: "Get Tags",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.GET,
     path: '/tag',
@@ -190,7 +182,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
   },
   {
     name: "Get Cities",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.GET,
     path: '/city',
@@ -214,7 +205,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
   },
   {
     name: "Get categories",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.GET,
     path: '/category',
@@ -238,7 +228,6 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
   },
   {
     name: "Get regions",
-
     access: [UserRole.ADMIN, UserRole.USER],
     method: HTTPMethod.GET,
     path: '/region',
