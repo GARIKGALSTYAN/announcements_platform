@@ -2,10 +2,7 @@ import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
 import {
-  IAnnouncement,
-  AnnouncementGetQueryRequest,
-  IAnnouncementCreateBody,
-  IAnnouncementUpdateBody,
+  Announcement
 } from "common";
 import { parseToNumber, parseToNumberArray } from "../../utils";
 
@@ -72,8 +69,8 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, IAnnouncementCreateBody>,
-      res: Res,
+      req: Req<any, any, Announcement.IAnnouncementCreateBodyArgs>,
+      res: Res<Announcement.IAnnouncement>,
     ) => {
       const { body } = req;
 
@@ -89,7 +86,7 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
         categories: body.categories,
       })
 
-      res.json({user: "uaaaaaaaaaaa"});
+      res.json(announcement);
       res.end();
     },
   },
@@ -105,7 +102,7 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, any>,
+      req: Req,
       res: Res,
     ) => {
 
@@ -189,8 +186,8 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       },
     },
     handler: async (
-      req: Req<any, any, any, AnnouncementGetQueryRequest>,
-      res: Res,
+      req: Req<any, any, any, Announcement.IAnnouncementGetQueryArgs>,
+      res: Res<Announcement.IAnnouncement[]>,
     ) => {
 
       const announcements = await StorageAPI.Announcements.getMany({
@@ -221,7 +218,7 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<{id: number}, any, any>,
+      req: Req<Announcement.IAnnouncementDeleteParamsArgs, any, any>,
       res: Res,
     ) => {
       const ann_id = req.params.id;
@@ -303,8 +300,11 @@ export const announcement_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<{id: number}, any, IAnnouncementUpdateBody>,
-      res: Res<IAnnouncement>,
+      req: Req<
+        Announcement.IAnnouncementUpdateParamsArgs,
+        any,
+        Announcement.IAnnouncementUpdateBodyArgs>,
+      res: Res<Announcement.IAnnouncement>,
     ) => {
       const ann_id = req.params.id;
 

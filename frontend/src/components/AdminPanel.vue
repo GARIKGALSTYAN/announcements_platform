@@ -10,7 +10,7 @@ import {
   getTags,
   getCategories,
 } from "../http_api";
-import type { ICategory, ICity, IRegion, ITag } from "common";
+import type { Category, City, Region, Tag } from "common";
 
 interface Data {
   tag: string;
@@ -18,10 +18,10 @@ interface Data {
   region: string;
   category: string;
 
-  tag_list: ITag[];
-  city_list: ICity[];
-  region_list: IRegion[];
-  category_list: ICategory[];
+  tag_list: Tag.ITag[];
+  city_list: City.ICity[];
+  region_list: Region.IRegion[];
+  category_list: Category.ICategory[];
 }
 
 export default defineComponent({
@@ -54,7 +54,7 @@ export default defineComponent({
           this.refetch();
         })
         .catch((error) => {
-          console.log("addCategory error", error);
+          console.log("Add category error", error);
         });
     },
     addCityHandler() {
@@ -66,7 +66,7 @@ export default defineComponent({
           this.refetch();
         })
         .catch((error) => {
-          console.log("addCity error", error);
+          console.log("Add city error", error);
         });
     },
     addRegionHandler() {
@@ -78,7 +78,7 @@ export default defineComponent({
           this.refetch();
         })
         .catch((error) => {
-          console.log("addRegion error", error);
+          console.log("Add region error", error);
         });
     },
     addTagHandler() {
@@ -90,7 +90,7 @@ export default defineComponent({
           this.refetch();
         })
         .catch((error) => {
-          console.log("addTag error", error);
+          console.log("Add tag error", error);
         });
     },
     refetch() {

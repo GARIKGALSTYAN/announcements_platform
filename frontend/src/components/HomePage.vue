@@ -1,16 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import {
-  addCategory,
-  addCity,
-  addRegion,
-  addTag,
-  getCities,
-  getRegions,
-  getTags,
-  getCategories,
-} from "../http_api";
-import type { ICategory, ICity, IRegion, ITag } from "common";
+import { getCities, getRegions, getTags, getCategories } from "../http_api";
+import type { Category, City, Region, Tag } from "common";
 
 interface Data {
   tag: string;
@@ -18,10 +9,10 @@ interface Data {
   region: string;
   category: string;
 
-  tag_list: ITag[];
-  city_list: ICity[];
-  region_list: IRegion[];
-  category_list: ICategory[];
+  tag_list: Tag.ITag[];
+  city_list: City.ICity[];
+  region_list: Region.IRegion[];
+  category_list: Category.ICategory[];
 }
 
 export default defineComponent({
@@ -45,54 +36,6 @@ export default defineComponent({
     this.refetch();
   },
   methods: {
-    addCategoryHandler() {
-      addCategory({
-        name: this.category,
-      })
-        .then(() => {
-          this.category = "";
-          this.refetch();
-        })
-        .catch((error) => {
-          console.log("addCategory error", error);
-        });
-    },
-    addCityHandler() {
-      addCity({
-        name: this.city,
-      })
-        .then(() => {
-          this.city = "";
-          this.refetch();
-        })
-        .catch((error) => {
-          console.log("addCity error", error);
-        });
-    },
-    addRegionHandler() {
-      addRegion({
-        name: this.region,
-      })
-        .then(() => {
-          this.region = "";
-          this.refetch();
-        })
-        .catch((error) => {
-          console.log("addRegion error", error);
-        });
-    },
-    addTagHandler() {
-      addTag({
-        name: this.tag,
-      })
-        .then(() => {
-          this.tag = "";
-          this.refetch();
-        })
-        .catch((error) => {
-          console.log("addTag error", error);
-        });
-    },
     refetch() {
       Promise.all([getCities(), getRegions(), getTags(), getCategories()])
         .then(([ci, rg, tg, ct]) => {

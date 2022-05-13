@@ -20,7 +20,6 @@ export function tryToRevalidate() {
       throw new Error("Unable to re-validate   in tryToRevalidate");
     }
 
-    console.log("p 2");
     axios
       .request({
         method: "POST",
@@ -34,27 +33,19 @@ export function tryToRevalidate() {
         );
       })
       .catch((error) => {
-        console.log("p 6");
         console.log("Unable to re-validate.", error);
       });
-
-    console.log("p 10");
   }
 }
 
 export function requestWithAuth<T>(args: HTTPRequestArgs) {
-  console.log("v 1");
   tryToRevalidate();
-  console.log("v 2");
 
-  console.log("v 3");
   const access_token = getAccessToken();
-  console.log("v 4");
   if (!access_token) {
-    console.log("v 5");
     throw new Error("Unable to re-validate.");
   }
-  console.log("v 6");
+
   return axios.request<T>({
     method: args.method,
     url: API_URL + args.path,

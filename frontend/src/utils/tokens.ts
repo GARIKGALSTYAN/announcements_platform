@@ -1,6 +1,6 @@
-import type { LoginResponse } from "common";
+import type { User } from "common";
 
-export function saveTokens(args: LoginResponse) {
+export function saveTokens(args: User.ILoginResult) {
   localStorage.setItem("access_token", args.access_token);
   localStorage.setItem(
     "access_token_expiry_date",

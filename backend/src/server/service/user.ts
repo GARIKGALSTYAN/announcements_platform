@@ -4,12 +4,8 @@ import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
 import { generatePasswordHash } from "../../utils";
 import {
-  RevalidateRequest,
-  RevalidateResult,
-  IUserCreateBody,
-  IUserLoginBody,
+  User,
 } from "common";
-
 
 export const user_route_handlers: Array<RouteHandlerConfig> = [
   {
@@ -60,7 +56,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, IUserCreateBody>,
+      req: Req<any, any, User.IRegisterBodyArgs>,
       res: Res,
     ) => {
       const { body } = req;
@@ -81,6 +77,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
   {
     name: "User login",
     access: null,
@@ -111,8 +108,8 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, IUserLoginBody, any, any>,
-      res: Res,
+      req: Req<any, any, User.ILoginBodyArgs>,
+      res: Res<User.ILoginResult>,
     ) => {
       const { body } = req;
 
@@ -140,7 +137,7 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       res.json({
         refresh_token: user_refresh_token.value,
         access_token: user_access_token.value,
-        access_token_expiry_date: user_access_token.expiry_date,
+        access_token_expiry_date: user_access_token.expiry_date.toString(),
         role: user.role,
       });
       res.end();
@@ -167,8 +164,8 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, RevalidateRequest, any, any>,
-      res: Res<RevalidateResult>,
+      req: Req<any, any, User.IRevalidateBodyArgs>,
+      res: Res<User.IRevalidateResult>,
     ) => {
       const { body } = req;
 
@@ -197,5 +194,4 @@ export const user_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   }
-
 ];

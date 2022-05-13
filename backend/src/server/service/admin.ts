@@ -2,14 +2,10 @@ import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
 import {
-  ICity,
-  CreateCityRequest,
-  IRegion,
-  CreateRegionRequest,
-  ICategory,
-  CreateCategoryRequest,
-  ITag,
-  CreateTagRequest,
+  City,
+  Region,
+  Category,
+  Tag,
 } from "common";
 
 
@@ -36,8 +32,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, CreateCityRequest>,
-      res: Res<ICity>,
+      req: Req<any, any, City.ICityCreateBodyArgs>,
+      res: Res<City.ICity>,
     ) => {
       const { body } = req;
 
@@ -72,8 +68,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, CreateRegionRequest>,
-      res: Res<IRegion>,
+      req: Req<any, any, Region.IRegionCreateBodyArgs>,
+      res: Res<Region.IRegion>,
     ) => {
       const { body } = req;
 
@@ -108,8 +104,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, CreateCategoryRequest>,
-      res: Res<ICategory>,
+      req: Req<any, any, Category.ICategoryCreateBodyArgs>,
+      res: Res<Category.ICategory>,
     ) => {
       const { body } = req;
 
@@ -144,8 +140,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, CreateTagRequest>,
-      res: Res<ITag>,
+      req: Req<any, any, Tag.ITagCreateBodyArgs>,
+      res: Res<Tag.ITag>,
     ) => {
       const { body } = req;
 
@@ -157,6 +153,7 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
   {
     name: "Get Tags",
     access: [UserRole.ADMIN, UserRole.USER],
@@ -168,8 +165,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, any>,
-      res: Res<ITag[]>,
+      req: Req,
+      res: Res<Tag.ITag[]>,
     ) => {
       const tags = await StorageAPI.Tag.getMany({
         ids: undefined,
@@ -180,6 +177,7 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
   {
     name: "Get Cities",
     access: [UserRole.ADMIN, UserRole.USER],
@@ -191,8 +189,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, any>,
-      res: Res<ICity[]>,
+      req: Req,
+      res: Res<City.ICity[]>,
     ) => {
       const cities = await StorageAPI.City.getMany({
         ids: undefined,
@@ -203,6 +201,7 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
   {
     name: "Get categories",
     access: [UserRole.ADMIN, UserRole.USER],
@@ -214,8 +213,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, any>,
-      res: Res<ICategory[]>,
+      req: Req,
+      res: Res<Category.ICategory[]>,
     ) => {
       const categories = await StorageAPI.Category.getMany({
         ids: undefined,
@@ -226,6 +225,7 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
+
   {
     name: "Get regions",
     access: [UserRole.ADMIN, UserRole.USER],
@@ -237,8 +237,8 @@ export const admin_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, any>,
-      res: Res<IRegion[]>,
+      req: Req,
+      res: Res<Region.IRegion[]>,
     ) => {
       const regions = await StorageAPI.Region.getMany({
         ids: undefined,

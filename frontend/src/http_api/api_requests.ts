@@ -1,30 +1,24 @@
 import { requestWithAuth, request } from "./requestWithAuth";
 import type {
-  IAnnouncement,
-  AnnouncementCreateRequest,
-  LoginResponse,
-  LoginRequest,
-  UserRegisterRequest,
-  CreateCategoryRequest,
-  CreateCityRequest,
-  CreateRegionRequest,
-  CreateTagRequest,
-  ICategory,
-  ICity,
-  IRegion,
-  ITag,
-  CreateImage,
-  IImage,
+  Announcement,
+  Category,
+  City,
+  Region,
+  Tag,
+  Image,
+  User,
 } from "common";
 
 export function getOwnAnnouncements() {
-  return requestWithAuth<IAnnouncement[]>({
+  return requestWithAuth<Announcement.IAnnouncement[]>({
     method: "GET",
     path: "/my_announcement",
   });
 }
 
-export function createAnnouncement(args: AnnouncementCreateRequest) {
+export function createAnnouncement(
+  args: Announcement.IAnnouncementCreateBodyArgs
+) {
   return requestWithAuth<unknown>({
     method: "POST",
     path: "/announcement",
@@ -32,48 +26,48 @@ export function createAnnouncement(args: AnnouncementCreateRequest) {
   });
 }
 
-export function loginRequest(args: LoginRequest) {
-  return request<LoginResponse>({
+export function loginRequest(args: User.ILoginBodyArgs) {
+  return request<User.ILoginResult>({
     method: "POST",
     path: "/user/login",
     body: args,
   });
 }
 
-export function registerRequest(args: UserRegisterRequest) {
-  return request<UserRegisterRequest>({
+export function registerRequest(args: User.IRegisterBodyArgs) {
+  return request({
     method: "POST",
     path: "/user",
     body: args,
   });
 }
 
-export function addTag(args: CreateTagRequest) {
-  return requestWithAuth<ITag>({
+export function addTag(args: Tag.ITagCreateBodyArgs) {
+  return requestWithAuth<Tag.ITag>({
     method: "POST",
     path: "/tag",
     body: args,
   });
 }
 
-export function addCategory(args: CreateCategoryRequest) {
-  return requestWithAuth<ICategory>({
+export function addCategory(args: Category.ICategoryCreateBodyArgs) {
+  return requestWithAuth<Category.ICategory>({
     method: "POST",
     path: "/category",
     body: args,
   });
 }
 
-export function addCity(args: CreateCityRequest) {
-  return requestWithAuth<ICity>({
+export function addCity(args: City.ICityCreateBodyArgs) {
+  return requestWithAuth<City.ICity>({
     method: "POST",
     path: "/city",
     body: args,
   });
 }
 
-export function addRegion(args: CreateRegionRequest) {
-  return requestWithAuth<IRegion>({
+export function addRegion(args: Region.IRegionCreateBodyArgs) {
+  return requestWithAuth<Region.IRegion>({
     method: "POST",
     path: "/region",
     body: args,
@@ -81,35 +75,35 @@ export function addRegion(args: CreateRegionRequest) {
 }
 
 export function getCities() {
-  return requestWithAuth<ICity[]>({
+  return requestWithAuth<City.ICity[]>({
     method: "GET",
     path: "/city",
   });
 }
 
 export function getRegions() {
-  return requestWithAuth<IRegion[]>({
+  return requestWithAuth<Region.IRegion[]>({
     method: "GET",
     path: "/region",
   });
 }
 
 export function getTags() {
-  return requestWithAuth<ITag[]>({
+  return requestWithAuth<Tag.ITag[]>({
     method: "GET",
     path: "/tag",
   });
 }
 
 export function getCategories() {
-  return requestWithAuth<ICategory[]>({
+  return requestWithAuth<Category.ICategory[]>({
     method: "GET",
     path: "/category",
   });
 }
 
-export function uploadImage(args: CreateImage) {
-  return requestWithAuth<IImage>({
+export function uploadImage(args: Image.IImageCreateBodyArgs) {
+  return requestWithAuth<Image.IImage>({
     method: "POST",
     path: "/image",
     body: args,

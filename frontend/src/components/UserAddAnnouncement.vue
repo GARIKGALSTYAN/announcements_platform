@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { ICategory, ICity, IRegion, ITag, IImage } from "common";
+import type { Category, City, Region, Tag, Image } from "common";
 import {
   getCities,
   getRegions,
@@ -21,16 +21,16 @@ interface Data {
   tags: number[];
   categories: number[];
 
-  current_selected_category: null | ICategory;
-  current_selected_tag: null | ITag;
-  current_selected_city: null | ICity;
-  current_selected_region: null | IRegion;
+  current_selected_category: null | Category.ICategory;
+  current_selected_tag: null | Tag.ITag;
+  current_selected_city: null | City.ICity;
+  current_selected_region: null | Region.IRegion;
 
-  tag_list: ITag[];
-  city_list: ICity[];
-  region_list: IRegion[];
-  category_list: ICategory[];
-  image_list: IImage[];
+  tag_list: Tag.ITag[];
+  city_list: City.ICity[];
+  region_list: Region.IRegion[];
+  category_list: Category.ICategory[];
+  image_list: Image.IImage[];
 }
 
 export default defineComponent({
@@ -95,8 +95,6 @@ export default defineComponent({
       return selected_tag_names.join(",");
     },
     selectedCity(): string {
-      console.log(this);
-
       let selected_city = "";
 
       const city = this.city_list.find((c) => c.id === this.city);
@@ -126,22 +124,16 @@ export default defineComponent({
         reader.readAsDataURL(image.files[0]);
 
         reader.onload = () => {
-          console.log("reader.result: ", reader.result);
           uploadImage({
             // eslint-disable-next-line
             // @ts-ignore
             image_base_64: reader.result,
           })
             .then((res) => {
-              console.log(res);
-              console.log("res.data: ", res.data);
-              console.log("res.data: this.im ", this);
-
               this.image_list.push(res.data);
               this.images.push(res.data.id);
             })
-            .catch((error) => {
-              console.log("upload image error", error);
+            .catch(() => {
               alert("Error on upload");
             })
             .finally(() => {
@@ -149,21 +141,11 @@ export default defineComponent({
             });
         };
         reader.onerror = (error) => {
-          console.log("Reader error: ", error);
+          console.log("Error on image upload", error);
         };
       }
     },
     addAnnouncement() {
-      console.log("payload: ", {
-        categories: this.categories,
-        city: this.city,
-        description: this.description,
-        images: this.images,
-        price: this.price,
-        region: this.region,
-        tags: this.tags,
-      });
-
       createAnnouncement({
         categories: this.categories,
         city: this.city,
@@ -222,14 +204,6 @@ export default defineComponent({
         .catch((error) => {
           console.log("Error on refetch", error);
         });
-    },
-
-    onLoad(dataUri: string) {
-      console.log(dataUri.length); // data-uri string
-      console.log(dataUri.slice(0, 200)); // data-uri string
-    },
-    onFile(file: unknown) {
-      console.log(file); // file object
     },
   },
 });

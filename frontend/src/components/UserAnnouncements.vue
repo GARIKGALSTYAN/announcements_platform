@@ -1,10 +1,10 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { getOwnAnnouncements } from "../http_api";
-import type { IAnnouncement } from "common";
+import type { Announcement } from "common";
 
 interface Data {
-  announcements: IAnnouncement[];
+  announcements: Announcement.IAnnouncement[];
 }
 
 export default defineComponent({
@@ -21,12 +21,12 @@ export default defineComponent({
         this.announcements = res.data;
       })
       .catch((error) => {
-        console.log("getOwnAnnouncements error", error);
+        console.log("Get own announcements error", error);
       });
   },
   methods: {
-    async onItemClick(ann: IAnnouncement) {
-      console.log("click on item with id", ann.id);
+    async onItemClick() {
+      // TODO
     },
   },
 });
@@ -40,7 +40,7 @@ export default defineComponent({
         class="item"
         v-for="ann in announcements"
         v-bind:key="ann.id"
-        v-on:click="onItemClick(ann)"
+        v-on:click="onItemClick()"
       >
         <p>description: {{ ann.description }}</p>
         <p>price: {{ ann.price }}</p>

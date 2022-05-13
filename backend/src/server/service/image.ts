@@ -3,8 +3,7 @@ import { UserRole, HTTPMethod } from "../../shared";
 import { Req, Res, RouteHandlerConfig } from "../types";
 import { StorageAPI } from "../../storage";
 import {
-  IImage,
-  CreateImage,
+  Image
 } from "common";
 
 cloudinary.v2.config({
@@ -36,8 +35,8 @@ export const image_route_handlers: Array<RouteHandlerConfig> = [
       query: undefined,
     },
     handler: async (
-      req: Req<any, any, CreateImage>,
-      res: Res<IImage>,
+      req: Req<any, any, Image.IImageCreateBodyArgs>,
+      res: Res<Image.IImage>,
     ) => {
       const { body } = req;
 
@@ -65,5 +64,4 @@ export const image_route_handlers: Array<RouteHandlerConfig> = [
       res.end();
     },
   },
-
 ];
