@@ -9,8 +9,8 @@ export default defineComponent({
   data: function () {
     return {
       login: {
-        email: "garik@test.com",
-        password: "123456789",
+        email: "",
+        password: "",
       },
       register: {
         email: "",
@@ -67,14 +67,18 @@ export default defineComponent({
   <div class="wrapper">
     <div class="login_wrapper side">
       <input type="text" placeholder="email" v-model="login.email" />
-      <input type="text" placeholder="password" v-model="login.password" />
+      <input type="password" placeholder="password" v-model="login.password" />
       <button v-on:click="doLogin">login</button>
     </div>
     <div class="register_wrapper side">
       <input type="text" placeholder="email" v-model="register.email" />
       <input type="text" placeholder="last_name" v-model="register.last_name" />
       <input type="text" placeholder="name" v-model="register.name" />
-      <input type="text" placeholder="password" v-model="register.password" />
+      <input
+        type="password"
+        placeholder="password"
+        v-model="register.password"
+      />
       <input
         type="text"
         placeholder="phone_number"
