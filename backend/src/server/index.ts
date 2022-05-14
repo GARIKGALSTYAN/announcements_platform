@@ -18,6 +18,7 @@ app.use(express.json({ limit: "6mb" }));
 app.use(cookieParser());
 app.use(cors());
 app.use(express.static("public"));
+console.log("dir", __dirname)
 app.use(authMiddleware);
 app.use(router);
 

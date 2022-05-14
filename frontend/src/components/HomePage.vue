@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
+import { RouterLink } from 'vue-router';
 import { getCities, getRegions, getTags, getCategories } from "../http_api";
 import type { Category, City, Region, Tag } from "common";
 
@@ -55,11 +56,11 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <div class="links">
-      <a href="/login"> Login/Registration </a>
-      <a href="/profile"> Profile </a>
-      <a href="/add"> Add New </a>
-      <a href="/search"> Search </a>
-      <a href="/admin"> Admin </a>
+      <router-link to="/login"> Login/Registration </router-link>
+      <router-link to="/profile"> Profile </router-link>
+      <router-link to="/add"> Add New </router-link>
+      <router-link to="/search"> Search </router-link>
+      <router-link to="/admin"> Admin </router-link>
     </div>
   </div>
 </template>

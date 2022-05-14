@@ -1,18 +1,16 @@
 {
+  "__note__": "this duplicated package.json file needed only for deployment",
   "name": "announcements_platform",
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "npx rimraf dist && npx tsc && yarn start",
-    "rm": "npx rimraf dist",
-    "rebuild": "yarn rm && yarn build",
-    "build": "npx tsc",
-    "start": "node dist/src/server/index.js",
-    "upcom": "yarn upgrade common"
+    "build": "yarn --cwd ./backend/ install && yarn --cwd ./backend/ build",
+    "start": "node backend/dist/src/server/index.js"
   },
   "dependencies": {
     "cloudinary": "^1.29.1",
     "cookie-parser": "^1.4.5",
+    "copyfiles": "^2.4.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "jsonschema": "^1.4.0",
@@ -26,7 +24,7 @@
     "@types/express": "^4.17.11",
     "@types/multer": "^1.4.7",
     "@types/node": "^14.14.33",
-    "common": "file:../common",
+    "common": "file:./common",
     "typescript": "^4.2.3"
   }
 }
