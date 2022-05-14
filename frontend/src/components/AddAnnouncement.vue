@@ -64,7 +64,6 @@ export default defineComponent({
     this.fetchLists();
   },
   computed: {
-    // a computed getter
     selectedCategories(): string {
       let selected_category_names: string[] = [];
 
@@ -182,12 +181,6 @@ export default defineComponent({
         this.current_selected_region = null;
       }
     },
-    // addImage() {
-    // //   if (this.selected_category !== null) {
-    // //     this.selected_categories.push(this.selected_category);
-    // //     this.selected_category = null;
-    // //   }
-    // },
     fetchLists() {
       Promise.all([getCities(), getRegions(), getTags(), getCategories()])
         .then(([ci, rg, tg, ct]) => {

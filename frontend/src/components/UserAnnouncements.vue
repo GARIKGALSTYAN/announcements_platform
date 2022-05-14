@@ -24,11 +24,6 @@ export default defineComponent({
         console.log("Get own announcements error", error);
       });
   },
-  methods: {
-    async onItemClick() {
-      // TODO
-    },
-  },
 });
 </script>
 
@@ -36,12 +31,7 @@ export default defineComponent({
   <div class="wrapper">
     <div>
       <p class="title">My announcements</p>
-      <div
-        class="item"
-        v-for="ann in announcements"
-        v-bind:key="ann.id"
-        v-on:click="onItemClick()"
-      >
+      <div class="item" v-for="ann in announcements" v-bind:key="ann.id">
         <p>description: {{ ann.description }}</p>
         <p>price: {{ ann.price }}</p>
         <p>({{ ann.region }} / {{ ann.city }} )</p>

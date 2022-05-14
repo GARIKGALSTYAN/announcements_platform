@@ -140,5 +140,7 @@ button {
   margin-left: 20px;
   display: flex;
   flex-direction: column;
+  z-index: 3;
+  position: absolute;
 }
 </style>
