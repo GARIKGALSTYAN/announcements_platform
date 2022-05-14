@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import type { Category, City, Region, Tag, Image } from "common";
+import type { Category, City, Region, Tag, Image, Announcement } from "common";
 import {
   getCities,
   getRegions,
@@ -8,9 +8,13 @@ import {
   getCategories,
   createAnnouncement,
   uploadImage,
+  getAnnouncements,
 } from "../http_api";
+import AnnouncementComponent from "./AnnouncementComponent.vue";
 
 interface Data {
+  search_query: string;
+
   description: string;
   price: number;
 
@@ -31,15 +35,18 @@ interface Data {
   region_list: Region.IRegion[];
   category_list: Category.ICategory[];
   image_list: Image.IImage[];
+
+  announcements: Announcement.IAnnouncement[];
 }
 
 export default defineComponent({
   components: {
-    // VueBase64FileUpload,
+    AnnouncementComponent,
   },
-  name: "UserAddAnnouncements",
+  name: "AnnouncementSearch",
   data: function () {
     const dt: Data = {
+      search_query: "",
       description: "",
       price: 0,
 
@@ -61,7 +68,7 @@ export default defineComponent({
       category_list: [],
       image_list: [],
 
-      // cloudinary: Cloudinary;
+      announcements: [],
     };
     return dt;
   },
@@ -205,6 +212,30 @@ export default defineComponent({
           console.log("Error on refetch", error);
         });
     },
+    search() {
+      console.log(this.search_query);
+
+      if (!this.search_query.length) {
+        return;
+      }
+
+      getAnnouncements({
+        search_query: this.search_query,
+        category_ids: undefined,
+        price_min: undefined,
+        price_max: undefined,
+        city_ids: undefined,
+        region_ids: undefined,
+        tag_ids: undefined,
+      })
+        .then((res) => {
+          console.log("res: ", res.data);
+          this.announcements = res.data;
+        })
+        .catch(() => {
+          console.log("Unable to get announcements");
+        });
+    },
   },
 });
 </script>
@@ -212,78 +243,25 @@ export default defineComponent({
 <template>
   <div class="wrapper">
     <div>
-      <p class="title">Add announcement</p>
+      <input
+        type="text"
+        placeholder="type and press enter"
+        v-model="search_query"
+        @change="search"
+      />
 
-      <div class="add_announcement_wrapper">
-        <p title="100kb because of cloudinary.com free package :D">
-          *All fields are MUST and image size must be lower or equal to 100kb :D
-        </p>
-
-        <input type="text" placeholder="description" v-model="description" />
-        <input type="number" placeholder="price" v-model="price" />
-
-        <div id="selector_category">
-          <select
-            v-model="current_selected_category"
-            v-on:change="addCategory()"
-          >
-            <option
-              v-for="category in category_list"
-              :value="category"
-              :key="category.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-          <span>Selected categories: {{ selectedCategories }}</span>
-        </div>
-
-        <div id="selector_tag">
-          <select v-model="current_selected_tag" v-on:change="addTag()">
-            <option v-for="tag in tag_list" :value="tag" :key="tag.id">
-              {{ tag.name }}
-            </option>
-          </select>
-          <span>Selected tags: {{ selectedTags }}</span>
-        </div>
-
-        <div id="selector_city">
-          <select v-model="current_selected_city" v-on:change="setCity()">
-            <option v-for="city in city_list" :value="city" :key="city.id">
-              {{ city.name }}
-            </option>
-          </select>
-          <span>Selected city: {{ selectedCity }}</span>
-        </div>
-
-        <div id="selector_region">
-          <select v-model="current_selected_region" v-on:change="setRegion()">
-            <option
-              v-for="region in region_list"
-              :value="region"
-              :key="region.id"
-            >
-              {{ region.name }}
-            </option>
-          </select>
-          <span>Selected region: {{ selectedRegion }}</span>
-        </div>
-
-        <div id="selector_image">
-          <img
-            v-for="image in image_list"
-            :key="image.id"
-            v-bind:src="image.url"
-            width="300"
-          />
-        </div>
-
-        <!-- <cld-image public-id="mypic" /> -->
-
-        <input type="file" ref="image_1" v-on:change="test" />
-
-        <button v-on:click="addAnnouncement">add</button>
-      </div>
+      <AnnouncementComponent
+        v-for="ann in announcements"
+        v-bind:key="ann.id"
+        :categories="ann.categories"
+        :city="ann.city"
+        :description="ann.description"
+        :id="ann.id"
+        :images="ann.images"
+        :price="ann.price"
+        :region="ann.region"
+        :tags="ann.tags"
+      />
     </div>
   </div>
 </template>
@@ -292,12 +270,20 @@ export default defineComponent({
 .wrapper {
   display: flex;
   flex-direction: row;
-  flex-grow: 0.2;
+  /* flex-grow: 0.2; */
   justify-content: center;
+  min-height: 100vh;
+  padding: 10px;
+  /* width: 50vw; */
 }
 
-* {
+/* * {
   margin: 5px;
+} */
+
+input {
+  font-size: 25px;
+  width: 100%;
 }
 
 .add_announcement_wrapper {

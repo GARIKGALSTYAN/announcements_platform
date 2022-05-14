@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import UserAnnouncements from "@/components/UserAnnouncements.vue";
-import UserAddAnnouncement from "@/components/UserAddAnnouncement.vue";
+import AddAnnouncement from "@/components/AddAnnouncement.vue";
 </script>
 
 <template>
   <main>
     <UserAnnouncements />
-    <UserAddAnnouncement />
+    <AddAnnouncement />
   </main>
 </template>
 

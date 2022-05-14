@@ -1,7 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import LoginRegistration from "../views/LoginRegistration.vue";
-import UserAddAnnouncement from "@/components/UserAddAnnouncement.vue";
+import AddAnnouncement from "@/components/AddAnnouncement.vue";
 import UserAnnouncements from "@/components/UserAnnouncements.vue";
+import AnnouncementSearch from "@/components/AnnouncementSearch.vue";
 import AdminPanel from "@/components/AdminPanel.vue";
 import HomePage from "@/components/HomePage.vue";
 
@@ -26,12 +27,17 @@ const router = createRouter({
     {
       path: "/add",
       name: "add",
-      component: UserAddAnnouncement,
+      component: AddAnnouncement,
     },
     {
       path: "/admin",
       name: "admin",
       component: AdminPanel,
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: AnnouncementSearch,
     },
   ],
 });

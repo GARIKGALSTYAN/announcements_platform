@@ -54,11 +54,12 @@ export default defineComponent({
 
 <template>
   <div class="wrapper">
-    <div>
-      <a href="login"> Login/Registration </a>
-      <a href="profile"> Profile </a>
-      <a href="admin"> Admin </a>
-      <a href="add"> Add New </a>
+    <div class="links">
+      <a href="/login"> Login/Registration </a>
+      <a href="/profile"> Profile </a>
+      <a href="/add"> Add New </a>
+      <a href="/search"> Search </a>
+      <a href="/admin"> Admin </a>
     </div>
   </div>
 </template>
@@ -130,6 +131,13 @@ button {
 }
 
 .list {
+  display: flex;
+  flex-direction: column;
+}
+
+.links {
+  margin-top: 30px;
+  margin-left: 20px;
   display: flex;
   flex-direction: column;
 }

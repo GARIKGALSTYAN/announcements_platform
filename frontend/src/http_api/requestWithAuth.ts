@@ -8,6 +8,7 @@ export interface HTTPRequestArgs {
   path: string;
   method: Method;
   body?: object;
+  params?: object;
 }
 
 export function tryToRevalidate() {
@@ -61,5 +62,6 @@ export function request<T>(args: HTTPRequestArgs) {
     method: args.method,
     url: API_URL + args.path,
     data: args.body,
+    params: args.params,
   });
 }

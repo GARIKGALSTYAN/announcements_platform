@@ -109,3 +109,11 @@ export function uploadImage(args: Image.IImageCreateBodyArgs) {
     body: args,
   });
 }
+
+export function getAnnouncements(args: Announcement.IAnnouncementGetQueryArgs) {
+  return request<Announcement.IAnnouncement[]>({
+    method: "GET",
+    path: "/announcement",
+    params: args,
+  });
+}
