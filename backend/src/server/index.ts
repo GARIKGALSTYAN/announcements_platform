@@ -22,6 +22,6 @@ console.log("dir", __dirname)
 app.use(authMiddleware);
 app.use(router);
 
-app.listen(() => {
+app.listen(app_environment_variables.server.port, () => {
     console.log(`Started on port: ${app_environment_variables.server.port}`);
 });
