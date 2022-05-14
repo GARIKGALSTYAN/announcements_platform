@@ -203,8 +203,8 @@ export default defineComponent({
       <p class="title">Add announcement</p>
 
       <div class="add_announcement_wrapper">
-        <p title="100kb because of cloudinary.com free package :D">
-          *All fields are MUST and image size must be lower or equal to 100kb :D
+        <p title="6mb because of cloudinary.com free package :D">
+          *All fields are MUST and image size must be lower or equal to 6mb
         </p>
 
         <input type="text" placeholder="description" v-model="description" />
